@@ -39,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(MainActivity.this, com.bauet.btia.LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         joinNowButton.setOnClickListener(new View.OnClickListener() {
