@@ -1,4 +1,4 @@
-package com.bauet.e_trade;
+package com.bauet.btia;
 
 import org.junit.Test;
 

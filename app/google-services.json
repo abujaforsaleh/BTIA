@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "940308219954",
-    "project_id": "e-trade-54408",
-    "storage_bucket": "e-trade-54408.appspot.com"
+    "project_number": "753654187339",
+    "project_id": "btia-ef8e6",
+    "storage_bucket": "btia-ef8e6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:940308219954:android:8a6acc1d59d1ff349d142b",
+        "mobilesdk_app_id": "1:753654187339:android:6ef8403eaeba7633a094ce",
         "android_client_info": {
-          "package_name": "com.bauet.e_trade"
+          "package_name": "com.bauet.btia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "940308219954-9k0jlgqbkh2mpfpjpqjkuc0p8p0ddmba.apps.googleusercontent.com",
+          "client_id": "753654187339-5iog4ktkv7nbcs1nt3953kv0vanqocfp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXintLvMxtEzm17v9GbQEpwWx21t4qrAY"
+          "current_key": "AIzaSyDST5ErkR8105MKBCISuHIeTapxAMI-uU0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "940308219954-9k0jlgqbkh2mpfpjpqjkuc0p8p0ddmba.apps.googleusercontent.com",
+              "client_id": "753654187339-5iog4ktkv7nbcs1nt3953kv0vanqocfp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

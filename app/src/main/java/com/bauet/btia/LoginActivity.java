@@ -1,4 +1,4 @@
-package com.bauet.e_trade;
+package com.bauet.btia;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bauet.e_trade.Model.Users;
-import com.bauet.e_trade.Prevalent.Prevalent;
+import com.bauet.btia.Model.Users;
+import com.bauet.btia.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

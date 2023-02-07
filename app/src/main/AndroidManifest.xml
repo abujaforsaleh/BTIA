@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bauet.e_trade">
+    package="com.bauet.btia">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,12 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ekart"
         tools:replace="android:theme">
-        <activity android:name="com.bauet.e_trade.HomeActivity"
+        <activity android:name="com.bauet.btia.HomeActivity"
 
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="com.bauet.e_trade.RegisterActivity" />
-        <activity android:name="com.bauet.e_trade.LoginActivity" />
-        <activity android:name="com.bauet.e_trade.MainActivity">
+        <activity android:name="com.bauet.btia.RegisterActivity" />
+        <activity android:name="com.bauet.btia.LoginActivity" />
+        <activity android:name="com.bauet.btia.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

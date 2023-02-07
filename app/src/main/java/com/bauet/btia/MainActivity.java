@@ -1,4 +1,4 @@
-package com.bauet.e_trade;
+package com.bauet.btia;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bauet.e_trade.Model.Users;
-import com.bauet.e_trade.Prevalent.Prevalent;
+import com.bauet.btia.Model.Users;
+import com.bauet.btia.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, com.bauet.e_trade.LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, com.bauet.btia.LoginActivity.class);
                 startActivity(intent);
             }
         });

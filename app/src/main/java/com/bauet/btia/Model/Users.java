@@ -1,4 +1,4 @@
-package com.bauet.e_trade.Model;
+package com.bauet.btia.Model;
 
 public class Users {
     private String name, phone, password, image, address;

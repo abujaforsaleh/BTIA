@@ -1,4 +1,4 @@
-package com.bauet.e_trade;
+package com.bauet.btia;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -90,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(RegisterActivity.this, "Congratulations, your account has been created.", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
-                                Intent intent = new Intent(RegisterActivity.this, com.bauet.e_trade.LoginActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this, com.bauet.btia.LoginActivity.class);
                                 startActivity(intent);
                             }
                             else
@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "This " + phone + " already exists.", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please try again using another phone number.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(RegisterActivity.this, com.bauet.e_trade.MainActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, com.bauet.btia.MainActivity.class);
                     startActivity(intent);
                 }
             }

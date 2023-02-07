@@ -1,6 +1,6 @@
-package com.bauet.e_trade.Prevalent;
+package com.bauet.btia.Prevalent;
 
-import com.bauet.e_trade.Model.Users;
+import com.bauet.btia.Model.Users;
 
 public class Prevalent {
     public static Users currentOnlineUser;
