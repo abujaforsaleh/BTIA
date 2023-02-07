@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "940308219954",
+    "project_id": "e-trade-54408",
+    "storage_bucket": "e-trade-54408.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940308219954:android:8a6acc1d59d1ff349d142b",
+        "android_client_info": {
+          "package_name": "com.bauet.e_trade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940308219954-9k0jlgqbkh2mpfpjpqjkuc0p8p0ddmba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXintLvMxtEzm17v9GbQEpwWx21t4qrAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940308219954-9k0jlgqbkh2mpfpjpqjkuc0p8p0ddmba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
