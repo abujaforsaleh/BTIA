@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddPlaces"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#519CBD"
+    tools:context=".AddPlaces">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_bg"
         tools:context=".AddPlaces">
 
         <!--title for iamge add-->
@@ -68,7 +67,7 @@
 
             <ImageView
                 android:layout_marginHorizontal="5dp"
-                android:id="@+id/select_product_image1"
+                android:id="@+id/select_img_1"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
@@ -81,7 +80,7 @@
                 android:background="@color/black"/>
 
             <ImageView
-                android:id="@+id/select_product_image2"
+                android:id="@+id/select_img_2"
                 android:layout_marginHorizontal="5dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -95,7 +94,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black"/>
+
         <LinearLayout
+            android:layout_marginHorizontal="10dp"
             android:id="@+id/aria_selection_section"
             android:weightSum="3"
             android:layout_width="match_parent"
@@ -120,7 +121,8 @@
                     android:background="@drawable/input_design"
                     android:padding="5dp"
                     android:alpha=".7"
-                    android:hint="Choose"
+                    android:maxLines="1"
+                    android:hint="Select"
                     android:paddingStart="10dp"
                     android:textColorHint="@color/white"
                     android:textColor="@color/white"
@@ -153,10 +155,11 @@
                     android:id="@+id/autoCompleteTextView2"
                     android:background="@drawable/input_design"
                     android:padding="5dp"
+                    android:maxLines="1"
                     android:alpha=".7"
                     android:textColorHint="@color/white"
                     android:textColor="@color/white"
-                    android:hint="Choose"
+                    android:hint="Select"
                     android:paddingStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -189,18 +192,14 @@
                     android:textColor="@color/white"
                     android:padding="5dp"
                     android:alpha=".7"
-                    android:hint="Choose"
+                    android:maxLines="1"
+                    android:hint="Select"
                     android:paddingStart="10dp"
                     android:textColorHint="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10" />
             </LinearLayout>
-            <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                android:paddingVertical="15dp"/>
 
 
 
@@ -209,10 +208,41 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black"/>
+        <!--video input section-->
+        <LinearLayout
+            android:layout_marginHorizontal="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/lite_black"
+                android:fontFamily="@font/home_font"
+                android:gravity="center"
+                android:text="Select Video"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:cropToPadding="false"
+                android:src="@drawable/select_product_image" />
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>
 
         <EditText
             android:id="@+id/product_name"
-            android:drawableStart="@drawable/person"
+            android:drawableStart="@drawable/place"
             android:drawableTint="@color/white"
             android:drawablePadding="10dp"
             android:alpha=".7"
@@ -223,7 +253,7 @@
             android:padding="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="Phone Number"
+            android:hint="Place Name"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="19sp"/>
@@ -231,7 +261,7 @@
 
         <EditText
             android:id="@+id/product_description"
-            android:drawableStart="@drawable/person"
+            android:drawableStart="@drawable/money_icon"
             android:drawableTint="@color/white"
             android:drawablePadding="10dp"
             android:alpha=".7"
@@ -242,7 +272,7 @@
             android:padding="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="Phone Number"
+            android:hint="Travel Cost From Dhaka"
             android:inputType="number"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -251,7 +281,7 @@
 
         <EditText
             android:id="@+id/product_price"
-            android:drawableStart="@drawable/person"
+            android:drawableStart="@drawable/money_icon"
             android:drawableTint="@color/white"
             android:drawablePadding="10dp"
             android:alpha=".7"
@@ -262,8 +292,28 @@
             android:padding="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="Phone Number"
+            android:hint="Aprx. Tour cost"
             android:inputType="number"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="19sp"/>
+
+        <EditText
+            android:id="@+id/product_price2"
+            android:drawableTint="@color/white"
+            android:drawablePadding="10dp"
+            android:alpha=".7"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/input_design"
+            android:padding="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="start"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:lineSpacingMultiplier="1.8"
+            android:hint="Location Information"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="19sp"/>
