@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_applogo"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
+        android:textColor="@color/lite_black"
+
         android:fontFamily="@font/home_font"
         android:text="Traveling Bangladesh"
         android:textAlignment="center"

@@ -7,7 +7,9 @@
     <color name="colorSecondaryVariant">#FF018786</color>
     <color name="colorOnSecondary">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="title1">#F4DEDE</color>
+
     <color name="black">#000</color>
-    <color name="lite_black">#101010</color>
+    <color name="lite_black">#252525</color>
     <color name="cardColor">#CFCECE</color>
 </resources>

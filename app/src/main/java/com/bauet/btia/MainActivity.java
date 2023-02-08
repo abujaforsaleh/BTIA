@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
         String UserPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
         String UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
-        if (UserPhoneKey != "" && UserPasswordKey != "")
+        if (!Objects.equals(UserPhoneKey, "") && !Objects.equals(UserPasswordKey, ""))
         {
             if (!TextUtils.isEmpty(UserPhoneKey)  &&  !TextUtils.isEmpty(UserPasswordKey))
             {
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             Prevalent.currentOnlineUser = usersData;
                             startActivity(intent);
+                            finish();
 
                         }
                         else {

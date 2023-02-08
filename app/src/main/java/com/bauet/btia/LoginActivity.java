@@ -98,6 +98,9 @@ public class LoginActivity extends AppCompatActivity {
     private void AllowAccessToAccount(final String phone, final String password)
     {
 
+        Paper.book().write(Prevalent.UserPhoneKey, phone);
+        Paper.book().write(Prevalent.UserPasswordKey, password);
+
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -118,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                 Prevalent.currentOnlineUser = usersData;
                                 startActivity(intent);
+                                finish();
                             }
                             else if (parentDbName.equals("Users")){
                                 Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
@@ -126,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                 Prevalent.currentOnlineUser = usersData;
                                 startActivity(intent);
+                                finish();
                             }
 
                         }
