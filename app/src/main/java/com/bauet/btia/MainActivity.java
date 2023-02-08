@@ -27,10 +27,12 @@ import io.paperdb.Paper;
 public class MainActivity extends AppCompatActivity {
     private Button joinNowButton, loginButton;
     private ProgressDialog loadingBar;
+    String UserPhoneKey, UserPasswordKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         joinNowButton = (Button) findViewById(R.id.main_join_now_btn);
         loginButton = (Button) findViewById(R.id.main_login_btn);
@@ -55,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        String UserPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
-        String UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
+        UserPhoneKey = Paper.book().read(Prevalent.UserPhoneKey);
+        UserPasswordKey = Paper.book().read(Prevalent.UserPasswordKey);
         if (!Objects.equals(UserPhoneKey, "") && !Objects.equals(UserPasswordKey, ""))
         {
             if (!TextUtils.isEmpty(UserPhoneKey)  &&  !TextUtils.isEmpty(UserPasswordKey))
             {
-                AllowAccess(UserPhoneKey, UserPasswordKey);
+                AllowAccess(UserPhoneKey, UserPasswordKey, "Users");
 
                 loadingBar.setTitle("Already Logged in");
                 loadingBar.setMessage("Please wait.....");
@@ -70,24 +72,29 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private void AllowAccess(final String phone, final String password)
+    private void AllowAccess(final String phone, final String password, String mode)
     {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("Users").child(phone).exists()){
+                if (dataSnapshot.child(mode).child(phone).exists()){
 
-                    Users usersData = dataSnapshot.child("Users").child(phone).getValue(Users.class);
+                    Users usersData = dataSnapshot.child(mode).child(phone).getValue(Users.class);
                     if (usersData.getPhone().equals(phone))
                     {
                         if (usersData.getPassword().equals(password))
                         {
                             Toast.makeText(MainActivity.this, "Please wait, you are already logged in...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
+                            Intent intent = new Intent();
+                            if(mode.equals("Users")){
+                                intent = new Intent(MainActivity.this, HomeActivity.class);
+                            }else{
+                                intent = new Intent(MainActivity.this, AdminActivity.class);
+                            }
 
-                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                             Prevalent.currentOnlineUser = usersData;
                             startActivity(intent);
                             finish();
@@ -100,8 +107,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
-                    loadingBar.dismiss();
+                    if(mode.equals("Users")){
+                        AllowAccess(UserPhoneKey, UserPasswordKey, "Admins");
+
+                    }else{
+                        Toast.makeText(MainActivity.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
+                        loadingBar.dismiss();
+                    }
+
+
                 }
             }
 
