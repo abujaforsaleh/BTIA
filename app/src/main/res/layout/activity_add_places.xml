@@ -117,7 +117,7 @@
                     android:textSize="25sp"
                     android:textStyle="bold" />
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView1"
+                    android:id="@+id/division_id"
                     android:background="@drawable/input_design"
                     android:padding="5dp"
                     android:alpha=".7"
@@ -152,7 +152,7 @@
                     android:textSize="25sp"
                     android:textStyle="bold" />
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView2"
+                    android:id="@+id/district_id"
                     android:background="@drawable/input_design"
                     android:padding="5dp"
                     android:maxLines="1"
@@ -183,11 +183,11 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/lite_black"
                     android:fontFamily="@font/home_font"
-                    android:text="Thana"
+                    android:text="Upazila"
                     android:textSize="25sp"
                     android:textStyle="bold" />
                 <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView3"
+                    android:id="@+id/upazilaId"
                     android:background="@drawable/input_design"
                     android:textColor="@color/white"
                     android:padding="5dp"
@@ -225,6 +225,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/select_video_id"
                 android:layout_marginHorizontal="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
@@ -240,27 +241,27 @@
             android:layout_height="1dp"
             android:background="@color/black"/>
 
+
         <EditText
-            android:id="@+id/product_name"
-            android:drawableStart="@drawable/place"
-            android:drawableTint="@color/white"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
+            android:id="@+id/placeNameId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
+            android:alpha=".7"
+            android:background="@drawable/input_design"
+            android:drawableStart="@drawable/place"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/white"
             android:hint="Place Name"
+            android:padding="20dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
+            android:textSize="19sp" />
 
         <EditText
-            android:id="@+id/product_description"
+            android:id="@+id/costFromDhakaId"
             android:drawableStart="@drawable/money_icon"
             android:drawableTint="@color/white"
             android:drawablePadding="10dp"
@@ -280,7 +281,7 @@
 
 
         <EditText
-            android:id="@+id/product_price"
+            android:id="@+id/tourCostId"
             android:drawableStart="@drawable/money_icon"
             android:drawableTint="@color/white"
             android:drawablePadding="10dp"
@@ -299,8 +300,7 @@
             android:textSize="19sp"/>
 
         <EditText
-            android:id="@+id/product_price2"
-            android:drawableTint="@color/white"
+            android:id="@+id/locationInfoId"
             android:drawablePadding="10dp"
             android:alpha=".7"
             android:layout_width="match_parent"
@@ -311,6 +311,7 @@
             android:layout_marginRight="15dp"
             android:gravity="start"
             android:ems="10"
+            android:textIsSelectable="true"
             android:inputType="textMultiLine"
             android:lineSpacingMultiplier="1.8"
             android:hint="Location Information"
@@ -320,7 +321,7 @@
 
 
         <Button
-            android:id="@+id/add_new_product"
+            android:id="@+id/add_new_place_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linear_layout_1"
