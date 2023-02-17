@@ -299,11 +299,12 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        /*Intent intent = new Intent(AddPlaces.this, AdminActivity.class);
-                        startActivity(intent);*/
-
                         loadingBar.dismiss();
                         Toast.makeText(AddPlaces.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AddPlaces.this, AdminActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     } else {
                         loadingBar.dismiss();
                         String message = task.getException().toString();

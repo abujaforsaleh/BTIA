@@ -160,12 +160,11 @@
                 android:orientation="vertical">
 
                 <ImageView
-
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3.5"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/help_img"/>
+                    android:src="@drawable/user_view"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -182,7 +181,7 @@
                     android:layout_weight="1.5"
                     android:textColor="@color/lite_black"
                     android:background="@color/white"
-                    android:text="Help"
+                    android:text="View Content"
                     android:gravity="center"
                     android:textSize="25sp"
                     android:textStyle="bold" />

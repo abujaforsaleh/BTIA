@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     private Button CreateAccountButton;
-    private EditText InputName, InputPhoneNumber, InputPassword;
+    private EditText InputName, InputPhoneNumber, InputPassword, InputPasswordVerify;
     private ProgressDialog loadingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         CreateAccountButton = (Button) findViewById(R.id.register_btn);
         InputName = (EditText) findViewById(R.id.register_username_input);
         InputPassword = (EditText) findViewById(R.id.register_password_input);
+        InputPasswordVerify = (EditText) findViewById(R.id.register_password_input_verify);
         InputPhoneNumber = (EditText) findViewById(R.id.register_phone_number_input);
         loadingBar = new ProgressDialog(this);
         CreateAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -48,26 +49,41 @@ public class RegisterActivity extends AppCompatActivity {
         String name = InputName.getText().toString();
         String phone = InputPhoneNumber.getText().toString();
         String password = InputPassword.getText().toString();
+        String rePassword = InputPasswordVerify.getText().toString();
+        boolean validator = true;
         if (TextUtils.isEmpty(name))
         {
-            Toast.makeText(this, "Please write your name...", Toast.LENGTH_SHORT).show();
+            validator = false;
+            InputName.setError("Please write your name...");
         }
-        else if (TextUtils.isEmpty(phone))
+        if (TextUtils.isEmpty(phone))
         {
-            Toast.makeText(this, "Please write your phone number...", Toast.LENGTH_SHORT).show();
+            validator = false;
+            InputPhoneNumber.setError("Please write your phone number...");
         }
-        else if (TextUtils.isEmpty(password))
+        if (TextUtils.isEmpty(password))
         {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
+            validator = false;
+            InputPassword.setError("Please write your password...");
+        }if(TextUtils.isEmpty(rePassword)){
+            validator = false;
+            InputPasswordVerify.setError("Please write your verify password...");
         }
-        else
+        if(validator)
         {
-            loadingBar.setTitle("Create Account");
-            loadingBar.setMessage("Please wait, while we are checking the credentials.");
-            loadingBar.setCanceledOnTouchOutside(false);
-            loadingBar.show();
+            if(password.equals(rePassword)){
+                loadingBar.setTitle("Create Account");
+                loadingBar.setMessage("Please wait, while we are checking the credentials.");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
 
-            ValidatephoneNumber(name, phone, password);
+                ValidatephoneNumber(name, phone, password);
+            }else{
+                Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show();
+                InputPassword.setError("Password didn't match");
+                InputPasswordVerify.setError("Password didn't match");
+            }
+
         }
 
     }

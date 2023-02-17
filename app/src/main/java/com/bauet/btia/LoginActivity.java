@@ -78,11 +78,13 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(phone))
         {
-            Toast.makeText(this, "Please write your phone number...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
+            InputPhoneNumber.setError("Please write your phone number...");
         }
         else if (TextUtils.isEmpty(password))
         {
-            Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
+            InputPassword.setError("Please write your phone number...");
         }
         else
         {

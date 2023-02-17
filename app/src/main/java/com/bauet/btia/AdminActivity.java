@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import io.paperdb.Paper;
 
@@ -39,6 +40,8 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
             Intent intent=new Intent(AdminActivity.this,AddPlaces.class);
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(intent);
+        }else{
+            Toast.makeText(this, "Under Constraction", Toast.LENGTH_SHORT).show();
         }
     }
 }
