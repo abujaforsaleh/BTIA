@@ -1,4 +1,4 @@
-package com.bauet.btia.Interface;
+package com.bauet.btais.Interface;
 import android.view.View;
 
 public interface ItemClickListner

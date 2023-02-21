@@ -1,4 +1,4 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bauet.btia.Model.Users;
-import com.bauet.btia.Prevalent.Prevalent;
+import com.bauet.btais.Model.Users;
+import com.bauet.btais.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, com.bauet.btia.LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, com.bauet.btais.LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

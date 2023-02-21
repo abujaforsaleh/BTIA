@@ -45,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/lite_black"
                 android:fontFamily="@font/home_font"
-                android:text="Image 2"
+                android:text="Video"
                 android:textAlignment="center"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -80,10 +80,10 @@
                 android:background="@color/black"/>
 
             <ImageView
-                android:id="@+id/select_img_2"
+                android:id="@+id/select_video_id"
                 android:layout_marginHorizontal="5dp"
-                android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:cropToPadding="false"
                 android:src="@drawable/select_product_image" />
@@ -208,32 +208,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black"/>
-        <!--video input section-->
-        <LinearLayout
-            android:layout_marginHorizontal="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="@color/lite_black"
-                android:fontFamily="@font/home_font"
-                android:gravity="center"
-                android:text="Select Video"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/select_video_id"
-                android:layout_marginHorizontal="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:cropToPadding="false"
-                android:src="@drawable/select_product_image" />
-
-
-        </LinearLayout>
 
 
         <View
@@ -293,7 +267,7 @@
             android:padding="20dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:hint="Aprx. Tour cost"
+            android:hint="Apex. Visiting cost"
             android:inputType="number"
             android:textColor="@color/white"
             android:textColorHint="@color/white"

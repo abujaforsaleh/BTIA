@@ -1,4 +1,4 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,14 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bauet.btia.Model.Users;
-import com.bauet.btia.Prevalent.Prevalent;
+import com.bauet.btais.Model.Users;
+import com.bauet.btais.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.rey.material.widget.CheckBox;
+
+import es.dmoral.toasty.Toasty;
 import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity {
@@ -78,12 +79,15 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(phone))
         {
-            Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
+
+            Toasty.error(LoginActivity.this, "Please fill all the information",
+                    Toast.LENGTH_SHORT, true).show();
+            //Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
             InputPhoneNumber.setError("Please write your phone number...");
         }
         else if (TextUtils.isEmpty(password))
         {
-            Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Please fill all the information", Toast.LENGTH_SHORT).show();
             InputPassword.setError("Please write your phone number...");
         }
         else
@@ -117,7 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             if(parentDbName.equals("Admins"))
                             {
-                                Toast.makeText(LoginActivity.this, "Welcome Admin, you are logged in Successfully...", Toast.LENGTH_SHORT).show();
+
+                                Toasty.success(LoginActivity.this, "Welcome Admin, you are logged in Successfully...",
+                                        Toast.LENGTH_SHORT, true).show();
+                                //Toast.makeText(LoginActivity.this, "Welcome Admin, you are logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
                                 Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
@@ -126,7 +133,10 @@ public class LoginActivity extends AppCompatActivity {
                                 finish();
                             }
                             else if (parentDbName.equals("Users")){
-                                Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
+
+                                Toasty.success(LoginActivity.this, "logged in Successfully...",
+                                        Toast.LENGTH_SHORT, true).show();
+                                //Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
                                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
@@ -138,12 +148,16 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else {
                             loadingBar.dismiss();
-                            Toast.makeText(LoginActivity.this,"Password is incorrect",Toast.LENGTH_SHORT).show();
+                            Toasty.warning(LoginActivity.this, "Password is incorrect",
+                                    Toast.LENGTH_SHORT, true).show();
+                            //Toast.makeText(LoginActivity.this,"Password is incorrect",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
+                    Toasty.error(LoginActivity.this, "Account with this phone number do not exists.",
+                            Toast.LENGTH_SHORT, true).show();
+                    //Toast.makeText(LoginActivity.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
                     loadingBar.dismiss();
                 }
             }

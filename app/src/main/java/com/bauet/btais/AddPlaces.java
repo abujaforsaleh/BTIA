@@ -1,4 +1,4 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,18 +33,18 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class AddPlaces extends AppCompatActivity implements View.OnClickListener {
-    private ImageView inputLocationImage1, inputLocationImage2, inputLocationVideo;
-    private Uri imageUri1, imageUri2, videoUri;
+    private ImageView inputLocationImage, inputLocationVideo;
+    private Uri imageUri, videoUri;
     private static final int GalleryPick = 1;
     private int image_btn_selected = 0;
     private EditText etPlaceName, etCostFromDhaka, etTravelCost, etLocationInformation;
     private String placeName, costFromDhaka, travelCost, locationInformation, saveCurrentTime, saveCurrentDate, division, district, upazila;
-    private String productRandomKey, downloadImage1Url, downloadImage2Url, downloadVideoUrl;
+    private String productRandomKey, downloadImageUrl, downloadVideoUrl;
     private Button addInformationBtn;
     private ProgressDialog loadingBar;
-    UploadTask uploadTask, uploadTask2, uploadTask3;
-    private int fileUploadCount = 0;
-    StorageReference filePath, filePath2, filePath3;
+    UploadTask imageUploadTask, videoUploadTask;
+    private int fileUploadCount = 1;
+    StorageReference imagePath, videoPath;
     AutoCompleteTextView etDivision, etDistrict, etUpazila;
     private StorageReference locationImagesRef;
     private DatabaseReference locationDataRef;
@@ -76,8 +76,7 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
 
         addInformationBtn = findViewById(R.id.add_new_place_id);
 
-        inputLocationImage1 = (ImageView) findViewById(R.id.select_img_1);
-        inputLocationImage2 = (ImageView) findViewById(R.id.select_img_2);
+        inputLocationImage = (ImageView) findViewById(R.id.select_img_1);
         inputLocationVideo = (ImageView) findViewById(R.id.select_video_id);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, divisions.split(", "));
@@ -96,8 +95,7 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         etUpazila.setAdapter(adapter3);
 
 
-        inputLocationImage1.setOnClickListener(this);
-        inputLocationImage2.setOnClickListener(this);
+        inputLocationImage.setOnClickListener(this);
         inputLocationVideo.setOnClickListener(this);
 
         addInformationBtn.setOnClickListener(this);
@@ -110,13 +108,9 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
 
         if (requestCode == GalleryPick && resultCode == RESULT_OK && data != null) {
             if (image_btn_selected == 1) {
-                imageUri1 = data.getData();
-                inputLocationImage1.setImageURI(imageUri1);
-            } else if (image_btn_selected == 2) {
-
-                imageUri2 = data.getData();
-                inputLocationImage2.setImageURI(imageUri2);
-            } else if (image_btn_selected == 3) {
+                imageUri = data.getData();
+                inputLocationImage.setImageURI(imageUri);
+            }else if (image_btn_selected == 3) {
                 videoUri = data.getData();
                 inputLocationVideo.setImageResource(R.drawable.video_icon);
             }
@@ -141,14 +135,11 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         if (v.getId() == R.id.select_img_1) {
             image_btn_selected = 1;
             OpenGallery();
-        } else if (v.getId() == R.id.select_img_2) {
-            image_btn_selected = 2;
-            OpenGallery();
-        } else if (v.getId() == R.id.select_video_id) {
+        }else if (v.getId() == R.id.select_video_id) {
             image_btn_selected = 3;
             OpenGallery();
         } else if (v.getId() == R.id.add_new_place_id) {
-            fileUploadCount = 0;
+            fileUploadCount = 1;
             ValidateLocationData();
         }
 
@@ -164,8 +155,8 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         district = etDistrict.getText().toString();
         upazila = etUpazila.getText().toString();
 
-        if (imageUri1 == null || imageUri2 == null) {
-            Toast.makeText(this, "Select two image properly.", Toast.LENGTH_SHORT).show();
+        if (imageUri == null) {
+            Toast.makeText(this, "Select image properly.", Toast.LENGTH_SHORT).show();
         } else if (videoUri == null) {
             Toast.makeText(this, "Select a video.", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(placeName)) {
@@ -187,8 +178,8 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
 
     private void storeLocationGraphicsToDB() {
         try{
-            loadingBar.setTitle("Add New Location");
-            loadingBar.setMessage("Wait while we are adding the new location.");
+            loadingBar.setTitle("Add New Content");
+            loadingBar.setMessage("Wait while we are adding the new Content.");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
@@ -201,16 +192,14 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
             saveCurrentTime = currentTime.format(calendar.getTime());
             productRandomKey = saveCurrentDate + saveCurrentTime;
 
-            filePath = locationImagesRef.child(imageUri1.getLastPathSegment() + productRandomKey + ".jpg");//image one
-            filePath2 = locationImagesRef.child(imageUri2.getLastPathSegment() + productRandomKey + ".jpg");//image two
-            filePath3 = locationImagesRef.child(videoUri.getLastPathSegment() + productRandomKey + ".mp4");//video
+            imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
+            videoPath = locationImagesRef.child(videoUri.getLastPathSegment() + productRandomKey + ".mp4");//video
 
-            uploadTask = filePath.putFile(imageUri1);
-            uploadTask2 = filePath2.putFile(imageUri2);
-            uploadTask3 = filePath3.putFile(videoUri);
+            imageUploadTask = imagePath.putFile(imageUri);
+            videoUploadTask = videoPath.putFile(videoUri);
 
 
-            uploadFile(uploadTask);
+            uploadFile(imageUploadTask);
 
         }catch (Exception e){
             Log.d("error", "found error");
@@ -239,12 +228,10 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
                             throw task.getException();
 
                         }
-                        if(fileUploadCount==0){
-                            return filePath.getDownloadUrl();
-                        }else if(fileUploadCount==1){
-                            return filePath2.getDownloadUrl();
+                        if(fileUploadCount==1){
+                            return imagePath.getDownloadUrl();
                         }else{
-                            return filePath3.getDownloadUrl();
+                            return videoPath.getDownloadUrl();
                         }
 
                     }
@@ -252,15 +239,10 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            if (fileUploadCount == 0) {
-                                downloadImage1Url = task.getResult().toString();
+                            if (fileUploadCount == 1) {
+                                downloadImageUrl = task.getResult().toString();
                                 fileUploadCount++;
-                                uploadFile(uploadTask2);
-
-                            } else if (fileUploadCount == 1) {
-                                downloadImage2Url = task.getResult().toString();
-                                fileUploadCount++;
-                                uploadFile(uploadTask3);
+                                uploadFile(videoUploadTask);
 
                             } else if (fileUploadCount == 2) {
                                 downloadVideoUrl = task.getResult().toString();
@@ -282,8 +264,7 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         locationMap.put("date", saveCurrentDate);
         locationMap.put("time", saveCurrentTime);
 
-        locationMap.put("image1", downloadImage1Url);
-        locationMap.put("image2", downloadImage2Url);
+        locationMap.put("image", downloadImageUrl);
         locationMap.put("video", downloadVideoUrl);
         locationMap.put("division", division);
         locationMap.put("district", district);

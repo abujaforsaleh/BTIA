@@ -1,6 +1,5 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -9,13 +8,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bauet.btais.Model.LocationModel;
+import com.bauet.btais.adapters.LocationListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import io.paperdb.Paper;
 
@@ -24,6 +31,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
     Toolbar toolbar;
+    RecyclerView locationList;
+    LocationListAdapter adapter; // Create Object of the Adapter class
+    DatabaseReference mbase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +41,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_home);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        
+
+
+
+        locationList = findViewById(R.id.locationListId);
         drawerLayout=findViewById(R.id.drawer_layout);
         toolbar=findViewById(R.id.toolbar);
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Home");
+        try{
+            Bundle bundle = getIntent().getExtras();
+            toolbar.setTitle(bundle.getString("title"));
+        }catch (Exception e){
+            toolbar.setTitle("Home");
+        }
+
+
+        //location recyclerview section
+        mbase = FirebaseDatabase.getInstance().getReference().child("Locations");
+
+
+        locationList.setLayoutManager(
+                new LinearLayoutManager(this));
+
+        FirebaseRecyclerOptions<LocationModel> options
+                = new FirebaseRecyclerOptions.Builder<LocationModel>()
+                .setQuery(mbase, LocationModel.class)
+                .build();
+        try{
+            Log.d("mms", options.getSnapshots().toString());
+        }catch (Exception e){
+            Log.e("error", e.toString());
+        }
+
+        adapter = new LocationListAdapter(options);
+        // Connecting Adapter class with the Recycler view*/
+        locationList.setAdapter(adapter);
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -47,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed(){
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         }
@@ -83,5 +124,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override protected void onStart()
+    {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stopping of the activity
+    @Override protected void onStop()
+    {
+        super.onStop();
+        adapter.stopListening();
     }
 }

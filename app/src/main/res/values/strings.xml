@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BTIA</string>
+    <string name="app_name">BTAIS</string>
 
 
     <string name="title_activity_home">HomeActivity</string>
@@ -125,8 +125,6 @@
         <item>Sylhet</item>
 
     </string-array>
-
-
 
 
 </resources>

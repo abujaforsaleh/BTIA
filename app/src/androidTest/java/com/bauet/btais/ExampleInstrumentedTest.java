@@ -1,4 +1,4 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.bauet.btia", appContext.getPackageName());
+        assertEquals("com.bauet.btais", appContext.getPackageName());
     }
 }

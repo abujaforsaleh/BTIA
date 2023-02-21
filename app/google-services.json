@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "753654187339",
+    "firebase_url": "https://btia-ef8e6-default-rtdb.firebaseio.com",
     "project_id": "btia-ef8e6",
     "storage_bucket": "btia-ef8e6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:753654187339:android:6ef8403eaeba7633a094ce",
+        "mobilesdk_app_id": "1:753654187339:android:018ab470694a4de8a094ce",
         "android_client_info": {
-          "package_name": "com.bauet.btia"
+          "package_name": "com.bauet.btais"
         }
       },
       "oauth_client": [

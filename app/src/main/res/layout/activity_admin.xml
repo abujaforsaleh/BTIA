@@ -146,7 +146,7 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/help"
+            android:id="@+id/view_content_btn_id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3.5"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@drawable/user_view"/>
                 <View
                     android:layout_width="match_parent"

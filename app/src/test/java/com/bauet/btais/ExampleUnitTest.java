@@ -1,4 +1,4 @@
-package com.bauet.btia;
+package com.bauet.btais;
 
 import org.junit.Test;
 

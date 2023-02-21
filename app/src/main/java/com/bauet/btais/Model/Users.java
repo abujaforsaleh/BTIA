@@ -1,4 +1,4 @@
-package com.bauet.btia.Model;
+package com.bauet.btais.Model;
 
 public class Users {
     private String name, phone, password, image, address;
