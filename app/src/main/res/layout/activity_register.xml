@@ -106,16 +106,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_password_input_verify"
-        android:layout_marginTop="35dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="35dp"
         android:layout_marginRight="15dp"
+        android:alpha=".9"
         android:background="@drawable/buttons"
         android:padding="17dp"
-        android:alpha=".9"
-        android:textAllCaps="false"
-        android:textSize="18sp"
         android:text="Create Account"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
-        />
+        android:textSize="18sp" />
 
 </RelativeLayout>

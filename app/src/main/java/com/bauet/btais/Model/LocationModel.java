@@ -1,6 +1,8 @@
 package com.bauet.btais.Model;
 
-public class LocationModel {
+import java.io.Serializable;
+
+public class LocationModel implements Serializable {
     private String lid;
     private String date;
     private String time;

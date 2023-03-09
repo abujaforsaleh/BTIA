@@ -37,6 +37,7 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
+                intent.putExtra("location_data", model);
                 v.getContext().startActivity(intent);
             }
         });
