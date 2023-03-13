@@ -12,17 +12,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ekart"
+        android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity
-            android:name=".PlaceInformationActivity"
+            android:name=".ModifyPlaceInfo"
+            android:theme="@style/Theme.AppCompat.DayNight"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
+            android:name=".PlaceInformationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AddPlaces"
+            android:theme="@style/Theme.AppCompat.Light"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -30,6 +40,7 @@
         </activity>
         <activity
             android:name=".AdminActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

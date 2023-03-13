@@ -1,5 +1,7 @@
 package com.bauet.btais;
 
+import static com.bauet.btais.constants.fromButton;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 
@@ -121,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             if(parentDbName.equals("Admins"))
                             {
-
                                 Toasty.success(LoginActivity.this, "Welcome Admin, you are logged in Successfully...",
                                         Toast.LENGTH_SHORT, true).show();
                                 //Toast.makeText(LoginActivity.this, "Welcome Admin, you are logged in Successfully...", Toast.LENGTH_SHORT).show();
@@ -133,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                                 finish();
                             }
                             else if (parentDbName.equals("Users")){
-
+                                fromButton = "user";//for re arranging home screen because same activity using by the user and the admin.
                                 Toasty.success(LoginActivity.this, "logged in Successfully...",
                                         Toast.LENGTH_SHORT, true).show();
                                 //Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();

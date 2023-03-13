@@ -3,7 +3,6 @@ package com.bauet.btais;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bauet.btais.Model.LocationModel;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,12 +31,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class AddPlaces extends AppCompatActivity implements View.OnClickListener {
+public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickListener{
+
     private ImageView inputLocationImage, inputLocationVideo;
     private Uri imageUri, videoUri;
     private static final int GalleryPick = 1;
@@ -44,7 +46,7 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
     private EditText etPlaceName, etCostFromDhaka, etTravelCost, etLocationInformation;
     private String placeName, costFromDhaka, travelCost, locationInformation, saveCurrentTime, saveCurrentDate, division, district, upazila;
     private String productRandomKey, downloadImageUrl, downloadVideoUrl;
-    private Button addInformationBtn;
+    private Button updateInformationBtn, deleteInformationBtn;
     private ProgressDialog loadingBar;
     UploadTask imageUploadTask, videoUploadTask;
     private int fileUploadCount = 1;
@@ -52,24 +54,26 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
     AutoCompleteTextView etDivision, etDistrict, etUpazila;
     private StorageReference locationImagesRef;
     private DatabaseReference locationDataRef;
+    String path;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_places);
-
+        setContentView(R.layout.activity_modify_place_info);
+        LocationModel locationInfo = (LocationModel) getIntent().getSerializableExtra("location_data");
+        path = getIntent().getStringExtra("reference");
         loadingBar = new ProgressDialog(this);
-        /*getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF026868));
-        getSupportActionBar().setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Information" + "</font>")));*/
-        // calling the action bar
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(0xFF026868));
-        actionBar.setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Add new Place" + "</font>")));
+        actionBar.setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Update / Delete Place" + "</font>")));
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
+
         locationImagesRef = FirebaseStorage.getInstance().getReference().child("Location Graphics");
-        locationDataRef = FirebaseDatabase.getInstance().getReference().child("Locations");
+        locationDataRef = FirebaseDatabase.getInstance().getReference(path);
 
         String divisions = "Dhaka, Chittagong, Rajshahi, Rangpur, Khulna, Barisal, Sylhet, Mymensingh";
         String districts = "Dhaka, Faridpur, Gazipur, Gopalganj, Kishoreganj, Madaripur, Manikganj, Munshiganj, Narayanganj, Narsingdi, Rajbari, Shariatpur, Tangail, Bandarban, Brahmanbaria, Chandpur, Chittagong, Comilla, Cox's Bazar, Feni, Khagrachhari, Lakshmipur, Noakhali, Rangamati, Bogra, Chapai Nawabganj, Joypurhat, Naogaon, Natore, Nawabganj, Pabna, Rajshahi, Sirajganj, Dinajpur, Gaibandha, Kurigram, Lalmonirhat, Nilphamari, Panchagarh, Rangpur, Thakurgaon, Bagerhat, Chuadanga, Jessore, Jhenaidah, Khulna, Kushtia, Magura, Meherpur, Narail, Satkhira, Barisal, Bhola, Jhalokati, Patuakhali, Pirojpur, Habiganj, Moulvibazar, Sunamganj, Sylhet, Jamalpur, Mymensingh, Netrakona, Sherpur";
@@ -81,12 +85,14 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         etDistrict = (AutoCompleteTextView) findViewById(R.id.district_id);
         etUpazila = (AutoCompleteTextView) findViewById(R.id.upazilaId);
 
+
         etPlaceName = findViewById(R.id.placeNameId);
         etCostFromDhaka = findViewById(R.id.costFromDhakaId);
         etTravelCost = findViewById(R.id.tourCostId);
         etLocationInformation = findViewById(R.id.locationInfoId);
 
-        addInformationBtn = findViewById(R.id.add_new_place_id);
+        updateInformationBtn = findViewById(R.id.update_location_adm);
+        deleteInformationBtn = findViewById(R.id.delete_location);
 
         inputLocationImage = (ImageView) findViewById(R.id.select_img_1);
         inputLocationVideo = (ImageView) findViewById(R.id.select_video_id);
@@ -104,11 +110,35 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         etDistrict.setAdapter(adapter2);
         etUpazila.setAdapter(adapter3);
 
+        //settings default value
+        etDivision.setText(locationInfo.getDivision());
+        etDistrict.setText(locationInfo.getDistrict());
+        etUpazila.setText(locationInfo.getUpazila());
+        etPlaceName.setText(locationInfo.getPlaceName());
+        etTravelCost.setText(locationInfo.getTravelCost());
+        etCostFromDhaka.setText(locationInfo.getCostFromDhaka());
+        etLocationInformation.setText(locationInfo.getInformation());
+        loadImage(locationInfo.getImage());
+
+        inputLocationVideo.setImageResource(R.drawable.video_icon);
+
         inputLocationImage.setOnClickListener(this);
         inputLocationVideo.setOnClickListener(this);
-
-        addInformationBtn.setOnClickListener(this);
-
+        deleteInformationBtn.setOnClickListener(this);
+        updateInformationBtn.setOnClickListener(this);
+    }
+    private void loadImage(String url) {
+        Picasso.get()
+                .load(url)
+                .into(inputLocationImage);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -143,24 +173,25 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         if (v.getId() == R.id.select_img_1) {
             image_btn_selected = 1;
-            OpenGallery();
+            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
+            //OpenGallery();
         }else if (v.getId() == R.id.select_video_id) {
             image_btn_selected = 3;
-            OpenGallery();
-        } else if (v.getId() == R.id.add_new_place_id) {
+            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
+            //OpenGallery();
+        } else if (v.getId() == R.id.update_location_adm) {
             fileUploadCount = 1;
             ValidateLocationData();
+        }else if(v.getId() == R.id.delete_location){
+
+            // Get a reference to the Firebase Realtime Database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            // Convert a string to a DatabaseReference
+            DatabaseReference myRef = database.getReference(path);
+            myRef.removeValue();
+            finish();
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void ValidateLocationData() {
@@ -173,7 +204,10 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         district = etDistrict.getText().toString();
         upazila = etUpazila.getText().toString();
 
-        if (imageUri == null) {
+        Log.d("tillnow", "this is ok");
+        storeLocationGraphicsToDB();
+
+        /*if (imageUri == null) {
             Toast.makeText(this, "Select image properly.", Toast.LENGTH_SHORT).show();
         } else if (videoUri == null) {
             Toast.makeText(this, "Select a video.", Toast.LENGTH_SHORT).show();
@@ -189,14 +223,16 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
             Toast.makeText(this, "Please fill all the location info", Toast.LENGTH_SHORT).show();
         }
         else {
+            Log.d("sdf", "calling");
             storeLocationGraphicsToDB();
-        }
+        }*/
 
     }
 
     private void storeLocationGraphicsToDB() {
         try{
-            loadingBar.setTitle("Add New Content");
+            Log.d("mmm", "calling");
+            loadingBar.setTitle("Updating Content");
             loadingBar.setMessage("Wait while we are adding the new Content.");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
@@ -210,14 +246,14 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
             saveCurrentTime = currentTime.format(calendar.getTime());
             productRandomKey = saveCurrentDate + saveCurrentTime;
 
-            imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
-            videoPath = locationImagesRef.child(videoUri.getLastPathSegment() + productRandomKey + ".mp4");//video
+            //imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
+            //videoPath = locationImagesRef.child(videoUri.getLastPathSegment() + productRandomKey + ".mp4");//video
 
-            imageUploadTask = imagePath.putFile(imageUri);
-            videoUploadTask = videoPath.putFile(videoUri);
+            //imageUploadTask = imagePath.putFile(imageUri);
+            //videoUploadTask = videoPath.putFile(videoUri);
 
-
-            uploadFile(imageUploadTask);
+            SaveLocationDetailsToDatabase();
+            //uploadFile(imageUploadTask);
 
         }catch (Exception e){
             Log.d("error", "found error");
@@ -232,7 +268,7 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onFailure(@NonNull Exception e) {
                 String message = e.toString();
-                Toast.makeText(AddPlaces.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModifyPlaceInfo.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -277,13 +313,14 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
     }
 
     private void SaveLocationDetailsToDatabase() {
+
         HashMap<String, Object> locationMap = new HashMap<>();
         locationMap.put("lid", productRandomKey);
         locationMap.put("date", saveCurrentDate);
         locationMap.put("time", saveCurrentTime);
 
-        locationMap.put("image", downloadImageUrl);
-        locationMap.put("video", downloadVideoUrl);
+        //locationMap.put("image", downloadImageUrl);
+        //locationMap.put("video", downloadVideoUrl);
         locationMap.put("division", division);
         locationMap.put("district", district);
         locationMap.put("upazila", upazila);
@@ -293,25 +330,23 @@ public class AddPlaces extends AppCompatActivity implements View.OnClickListener
         locationMap.put("travelCost", travelCost);
         locationMap.put("information", locationInformation);
 
-        locationDataRef.child(productRandomKey).updateChildren(locationMap)
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        loadingBar.dismiss();
-                        Toast.makeText(AddPlaces.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AddPlaces.this, AdminActivity.class);
-                        startActivity(intent);
-                        finish();
+        locationDataRef.updateChildren(locationMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            loadingBar.dismiss();
+                            Toast.makeText(ModifyPlaceInfo.this, "Location Updated successfully..", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ModifyPlaceInfo.this, AdminActivity.class);
+                            startActivity(intent);
+                            finish();
 
-                    } else {
-                        loadingBar.dismiss();
-                        String message = task.getException().toString();
-                        Toast.makeText(AddPlaces.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                        } else {
+                            loadingBar.dismiss();
+                            String message = task.getException().toString();
+                            Toast.makeText(ModifyPlaceInfo.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
     }
-
-
 }

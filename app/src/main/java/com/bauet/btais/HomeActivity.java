@@ -1,5 +1,8 @@
 package com.bauet.btais;
 
+import static com.bauet.btais.constants.fromButton;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -38,27 +41,54 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-
 
         locationList = findViewById(R.id.locationListId);
         drawerLayout=findViewById(R.id.drawer_layout);
         toolbar=findViewById(R.id.toolbar);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+
         try{
-            Bundle bundle = getIntent().getExtras();
-            toolbar.setTitle(bundle.getString("title"));
+            Log.d("frombutton", fromButton);
+            if(fromButton.equals("user")){
+                Log.d("title", "0");
+                /*Bundle bundle = getIntent().getExtras();
+                Log.d("title", bundle.getString("title"));*/
+                toolbar.setTitle("Home");
+                Log.d("title", "1");
+
+                navigationView.setNavigationItemSelectedListener(this);
+                Log.d("title", "2");
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+
+                drawerLayout.addDrawerListener(toggle);
+                Log.d("title", "3");
+                toggle.syncState();
+                Log.d("allok", "all ok for user");
+            }else{
+
+                //Toast.makeText(this, "hiding title", Toast.LENGTH_SHORT).show();
+                String title = "";
+                //toolbar.setNavigationIcon(null);
+                if(fromButton.equals("update_delete")){
+                    title = "Add/Update Locations";
+                }else{
+                    title = "User View";
+                }
+                toolbar.setTitle(title);
+                setSupportActionBar(toolbar);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            }
+
         }catch (Exception e){
             toolbar.setTitle("Home");
         }
 
-
         //location recyclerview section
         mbase = FirebaseDatabase.getInstance().getReference().child("Locations");
-
 
         locationList.setLayoutManager(
                 new LinearLayoutManager(this));
@@ -67,23 +97,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 = new FirebaseRecyclerOptions.Builder<LocationModel>()
                 .setQuery(mbase, LocationModel.class)
                 .build();
-        try{
-            Log.d("mms", options.getSnapshots().toString());
-        }catch (Exception e){
-            Log.e("error", e.toString());
-        }
 
-        adapter = new LocationListAdapter(options);
+        adapter = new LocationListAdapter(options, this);
         // Connecting Adapter class with the Recycler view*/
         locationList.setAdapter(adapter);
 
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
     }
 
     @Override
@@ -101,8 +119,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        if(fromButton.equals("user"))
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -2,16 +2,13 @@ package com.bauet.btais;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bauet.btais.Model.Users;
 import com.bauet.btais.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
@@ -19,9 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.Objects;
-
 import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,10 +83,12 @@ public class MainActivity extends AppCompatActivity {
                         {
                             Toast.makeText(MainActivity.this, "Please wait, you are already logged in...", Toast.LENGTH_SHORT).show();
                             loadingBar.dismiss();
-                            Intent intent = new Intent();
+                            Intent intent;
                             if(mode.equals("Users")){
+                                Paper.book().write("user_mode", "user");
                                 intent = new Intent(MainActivity.this, HomeActivity.class);
                             }else{
+                                Paper.book().write("user_mode", "admin");
                                 intent = new Intent(MainActivity.this, AdminActivity.class);
                             }
 

@@ -20,15 +20,16 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             android:src="@drawable/admin" />
+
         <TextView
             android:id="@+id/app_slogan"
             android:layout_width="248dp"
-            android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-            android:textColor="@color/title1"
+            android:layout_centerInParent="true"
             android:fontFamily="@font/home_font"
             android:text="Admin Panel"
             android:textAlignment="center"
+            android:textColor="@color/title1"
             android:textSize="45sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -90,7 +91,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/update_location"
+            android:id="@+id/update_delete_content_id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -122,10 +123,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:background="@color/white"
                     android:layout_weight="1.5"
                     android:textColor="@color/lite_black"
-                    android:text="Update Info"
+                    android:background="@color/white"
+                    android:text="Update/Delete"
                     android:gravity="center"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -144,9 +145,8 @@
         android:weightSum="2"
         android:orientation="horizontal">
 
-
         <androidx.cardview.widget.CardView
-            android:id="@+id/view_content_btn_id"
+            android:id="@+id/view_content_id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -179,9 +179,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.5"
-                    android:textColor="@color/lite_black"
                     android:background="@color/white"
-                    android:text="View Content"
+                    android:textColor="@color/lite_black"
+                    android:text="View Contents"
                     android:gravity="center"
                     android:textSize="25sp"
                     android:textStyle="bold" />
