@@ -1,4 +1,4 @@
-package com.bauet.btais;
+package com.bauet.btais.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +15,7 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 import com.bauet.btais.Model.LocationModel;
+import com.bauet.btais.R;
 import com.squareup.picasso.Picasso;
 
 public class PlaceInformationActivity extends AppCompatActivity {
@@ -59,7 +60,6 @@ public class PlaceInformationActivity extends AppCompatActivity {
         // Set the nearby hotels
         mNearbyHotelsTextView.setText("No hotel information available right now");
         locationInfoTv.setText(locationInfo.getInformation());
-
     }
 
     @Override
@@ -70,6 +70,4 @@ public class PlaceInformationActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

@@ -11,14 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bauet.btais.Model.LocationModel;
-import com.bauet.btais.ModifyPlaceInfo;
-import com.bauet.btais.PlaceInformationActivity;
+import com.bauet.btais.activities.ModifyPlaceInfo;
+import com.bauet.btais.activities.PlaceInformationActivity;
 import com.bauet.btais.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;

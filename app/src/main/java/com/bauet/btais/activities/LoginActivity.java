@@ -1,4 +1,4 @@
-package com.bauet.btais;
+package com.bauet.btais.activities;
 
 import static com.bauet.btais.constants.fromButton;
 
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bauet.btais.Model.Users;
 import com.bauet.btais.Prevalent.Prevalent;
+import com.bauet.btais.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Paper.init(this);
+
         LoginButton = (Button) findViewById(R.id.login_btn);
         InputPassword = (EditText) findViewById(R.id.login_password_input);
         InputPhoneNumber = (EditText) findViewById(R.id.login_phone_number_input);
@@ -127,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.LENGTH_SHORT, true).show();
                                 //Toast.makeText(LoginActivity.this, "Welcome Admin, you are logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
-
+                                Paper.book().write("user_mode", "admin");
                                 Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
                                 Prevalent.currentOnlineUser = usersData;
                                 startActivity(intent);

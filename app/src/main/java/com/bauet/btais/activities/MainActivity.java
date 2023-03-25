@@ -1,4 +1,4 @@
-package com.bauet.btais;
+package com.bauet.btais.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bauet.btais.Model.Users;
 import com.bauet.btais.Prevalent.Prevalent;
+import com.bauet.btais.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this, com.bauet.btais.LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -85,10 +86,8 @@ public class MainActivity extends AppCompatActivity {
                             loadingBar.dismiss();
                             Intent intent;
                             if(mode.equals("Users")){
-                                Paper.book().write("user_mode", "user");
                                 intent = new Intent(MainActivity.this, HomeActivity.class);
                             }else{
-                                Paper.book().write("user_mode", "admin");
                                 intent = new Intent(MainActivity.this, AdminActivity.class);
                             }
 
@@ -111,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Account with this " + phone + " number do not exists.", Toast.LENGTH_SHORT).show();
                         loadingBar.dismiss();
                     }
-
 
                 }
             }

@@ -15,15 +15,22 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity
-            android:name=".ModifyPlaceInfo"
-            android:theme="@style/Theme.AppCompat.DayNight"
+            android:name=".ModifyHotelInfo"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".PlaceInformationActivity"
+            android:name=".activities.AddHotelsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.ModifyPlaceInfo"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight">
             <meta-data
@@ -31,32 +38,40 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".AddPlaces"
-            android:theme="@style/Theme.AppCompat.Light"
-            android:exported="false">
+            android:name=".activities.PlaceInformationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".AdminActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:exported="false">
+            android:name=".activities.AddPlaces"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.AdminActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>

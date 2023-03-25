@@ -19,6 +19,7 @@
         android:elevation="4dp">
 
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_bar_id"
             android:background="#424141"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"/>
