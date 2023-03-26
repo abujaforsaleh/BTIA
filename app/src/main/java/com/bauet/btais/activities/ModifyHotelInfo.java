@@ -41,7 +41,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
 
     ImageView hotelImage;
     EditText division, district, upazila;
-    EditText hotelName, roomType, costPerNight, bonus, totalRooms, hotelInfo;
+    EditText hotelName, roomType, costPerNight, bonus, totalRooms, hotelInfo, services, rating;
     Button updateHotelBtn, deleteHotelBtn;
     private Uri imageUri;
     private ProgressDialog loadingBar;
@@ -84,6 +84,8 @@ public class ModifyHotelInfo extends AppCompatActivity {
         hotelInfo = findViewById(R.id.hotelInfo);
         updateHotelBtn = findViewById(R.id.add_new_hotel_id);
         deleteHotelBtn = findViewById(R.id.delete_hotel_id);
+        services = findViewById(R.id.room_services);
+        rating = findViewById(R.id.rating);
 
         //settings default value
         division.setText(hotelInformation.getDivision());
@@ -96,6 +98,8 @@ public class ModifyHotelInfo extends AppCompatActivity {
         //totalRooms.setText(hotelInformation.());///todo need to check this
         hotelInfo.setText(hotelInformation.getHotelInformation());
         loadImage(hotelInformation.getImage());
+        services.setText(hotelInformation.getServices());
+        rating.setText(hotelInformation.getRating());
 
         updateHotelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,6 +182,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
         }
 
     }
+
 
     private void storeLocationGraphicsToDB() {
         try{

@@ -68,11 +68,6 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/title1"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -110,11 +105,7 @@
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
                         android:src="@drawable/hotel_img"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -200,11 +191,7 @@
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
                         android:src="@drawable/user_view"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -244,11 +231,7 @@
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
                         android:src="@drawable/update_location_img"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -300,11 +283,6 @@
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
                         android:src="@drawable/logout_img"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

@@ -4,25 +4,28 @@ import java.io.Serializable;
 
 public class HotelModel implements Serializable {
 
-    private String hid;
-    private String date;
-    private String time;
-    private String image;
+    private String hid = "";
+    private String date = "";
+    private String time = "";
+    private String image = "";
 
-    private String division;
-    private String district;
-    private String upazila;
+    private String division = "";
+    private String district = "";
+    private String upazila = "";
 
-    private String hotelName;
-    private String roomType;
-    private String costPerNight;
-    private String bonus;
-    private String hotelInformation;
+    private String hotelName = "";
+    private String roomType = "";
+    private String costPerNight = "";
+    private String bonus = "";
+    private String hotelInformation = "";
+    private String services = "";
+    private String rating = "0";
+
 
     public HotelModel() {
     }
 
-    public HotelModel(String hid, String date, String time, String image, String division, String district, String upazila, String hotelName, String roomType, String costPerNight, String bonus, String hotelInformation) {
+    public HotelModel(String hid, String date, String time, String image, String division, String district, String upazila, String hotelName, String roomType, String costPerNight, String bonus, String hotelInformation, String services, String rating) {
         this.hid = hid;
         this.date = date;
         this.time = time;
@@ -35,6 +38,16 @@ public class HotelModel implements Serializable {
         this.costPerNight = costPerNight;
         this.bonus = bonus;
         this.hotelInformation = hotelInformation;
+        this.services = services;
+        this.rating = rating;
+    }
+
+    public String getServices() {
+        return services;
+    }
+
+    public String getRating() {
+        return rating;
     }
 
     public String getHid() {

@@ -37,7 +37,7 @@ import java.util.HashMap;
 public class AddHotelsActivity extends AppCompatActivity {
     ImageView hotelImage;
     EditText division, district, upazila;
-    EditText hotelName, roomType, costPerNight, bonus, totalRooms, hotelInfo;
+    EditText hotelName, roomType, costPerNight, bonus, totalRooms, hotelInfo, services;
     Button addHotelBtn;
     private Uri imageUri;
     private ProgressDialog loadingBar;
@@ -47,7 +47,7 @@ public class AddHotelsActivity extends AppCompatActivity {
     private DatabaseReference hotelDataRef;
 
 
-    String downloadImageUrl, productRandomKey, saveCurrentTime, saveCurrentDate, divisionStr, districtStr, upazilaStr, hotelNameStr, roomTypeStr, costPerNightStr, bonusStr, totalRoomsStr, hotelInfoStr;
+    String servicesStr, downloadImageUrl, productRandomKey, saveCurrentTime, saveCurrentDate, divisionStr, districtStr, upazilaStr, hotelNameStr, roomTypeStr, costPerNightStr, bonusStr, totalRoomsStr, hotelInfoStr;
 
     boolean isReadyForUpload = false;
     private static final int GalleryPick = 1;
@@ -78,6 +78,7 @@ public class AddHotelsActivity extends AppCompatActivity {
         totalRooms = findViewById(R.id.total_rooms);
         hotelInfo = findViewById(R.id.hotelInfo);
         addHotelBtn = findViewById(R.id.add_new_hotel_id);
+        services = findViewById(R.id.room_services);
 
         addHotelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,11 +133,13 @@ public class AddHotelsActivity extends AppCompatActivity {
         bonusStr = bonus.getText().toString();
         totalRoomsStr = totalRooms.getText().toString();
         hotelInfoStr = hotelInfo.getText().toString();
+        servicesStr = services.getText().toString();
+
 
 
         if (divisionStr.equals("") || districtStr.equals("") || upazilaStr.equals("") ||
                 hotelNameStr.equals("") || roomTypeStr.equals("") || costPerNightStr.equals("") ||
-                bonusStr.equals("") || totalRoomsStr.equals("") || hotelInfoStr.equals("")) {
+                bonusStr.equals("") || totalRoomsStr.equals("") || hotelInfoStr.equals("") || servicesStr.equals("")) {
             Toast.makeText(this, "Please fill all the information correctly", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -226,6 +229,8 @@ public class AddHotelsActivity extends AppCompatActivity {
         locationMap.put("costPerNight", costPerNightStr);
         locationMap.put("bonus", bonusStr);
         locationMap.put("hotelInformation", hotelInfoStr);
+        locationMap.put("rating", "0");
+        locationMap.put("services", servicesStr);
 
         hotelDataRef.child(productRandomKey).updateChildren(locationMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
