@@ -254,24 +254,6 @@
                 android:textSize="19sp"/>
 
             <EditText
-                android:id="@+id/total_rooms"
-                android:drawableStart="@drawable/money_icon"
-                android:drawableTint="@color/white"
-                android:drawablePadding="10dp"
-                android:alpha=".7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@drawable/input_design"
-                android:padding="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:hint="Total Rooms"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="19sp"/>
-            <EditText
                 android:id="@+id/room_services"
                 android:drawableStart="@drawable/money_icon"
                 android:drawableTint="@color/white"
@@ -285,7 +267,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:hint="Service (Ex. wifi, room service)"
-                android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="19sp"/>

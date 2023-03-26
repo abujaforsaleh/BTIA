@@ -42,8 +42,8 @@ public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelL
         String address = model.getDivision()+","+model.getDistrict()+","+model.getUpazila();
         holder.hotelName.setText(model.getHotelName());
         holder.hotelLocation.setText(address);
+        holder.roomType.setText(model.getRoomType());
         holder.stayingCost.setText("৳."+model.getCostPerNight());
-        holder.discount.setText("৳."+model.getDistrict());
         Picasso.get().load(model.getImage()).into(holder.imageView);
 
         holder.itemParentLayout.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelL
     }
 
     static class LocationViewHolder extends RecyclerView.ViewHolder {
-        TextView hotelName, hotelLocation, stayingCost, discount;
+        TextView hotelName, hotelLocation, stayingCost, roomType;
         ImageView imageView;
         CardView itemParentLayout;
         public LocationViewHolder(@NonNull View itemView)
@@ -102,8 +102,8 @@ public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelL
             hotelLocation = itemView.findViewById(R.id.hotel_location);
             stayingCost = itemView.findViewById(R.id.stay_cost);
             imageView = itemView.findViewById(R.id.hotel_img);
-            discount = itemView.findViewById(R.id.discount);
             itemParentLayout = itemView.findViewById(R.id.itemParentLayout);
+            roomType = itemView.findViewById(R.id.room_type);
 
         }
     }

@@ -50,19 +50,20 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
     private Button updateInformationBtn, deleteInformationBtn;
     private ProgressDialog loadingBar;
     UploadTask imageUploadTask, videoUploadTask;
-    private int fileUploadCount = 1;
     StorageReference imagePath, videoPath;
     AutoCompleteTextView etDivision, etDistrict, etUpazila;
     private StorageReference locationImagesRef;
     private DatabaseReference locationDataRef;
     String path;
+    boolean isImageChanged = false, isVideoChanged = false;
+    LocationModel locationInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_place_info);
 
-        LocationModel locationInfo = (LocationModel) getIntent().getSerializableExtra("location_data");
+        locationInfo = (LocationModel) getIntent().getSerializableExtra("location_data");
         path = getIntent().getStringExtra("reference");
         loadingBar = new ProgressDialog(this);
 
@@ -122,6 +123,32 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
         deleteInformationBtn.setOnClickListener(this);
         updateInformationBtn.setOnClickListener(this);
     }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.select_img_1) {
+            image_btn_selected = 1;
+            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
+            OpenGallery();
+        }else if (v.getId() == R.id.select_video_id) {
+            image_btn_selected = 3;
+            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
+            OpenGallery();
+        } else if (v.getId() == R.id.update_location_adm) {
+            ValidateLocationData();
+        }else if(v.getId() == R.id.delete_location){
+            // Get a reference to the Firebase Realtime Database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            // Convert a string to a DatabaseReference
+            DatabaseReference myRef = database.getReference(path);
+            myRef.removeValue();
+            finish();
+        }
+
+    }
+
+
     private void loadImage(String url) {
         Picasso.get()
                 .load(url)
@@ -144,9 +171,11 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
             if (image_btn_selected == 1) {
                 imageUri = data.getData();
                 inputLocationImage.setImageURI(imageUri);
+                isImageChanged = true;
             }else if (image_btn_selected == 3) {
                 videoUri = data.getData();
                 inputLocationVideo.setImageResource(R.drawable.video_icon);
+                isVideoChanged = true;
             }
 
         }
@@ -164,30 +193,6 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(galleryIntent, GalleryPick);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.select_img_1) {
-            image_btn_selected = 1;
-            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
-            //OpenGallery();
-        }else if (v.getId() == R.id.select_video_id) {
-            image_btn_selected = 3;
-            Toast.makeText(this, "Multimedia content can not be replace", Toast.LENGTH_SHORT).show();
-            //OpenGallery();
-        } else if (v.getId() == R.id.update_location_adm) {
-            fileUploadCount = 1;
-            ValidateLocationData();
-        }else if(v.getId() == R.id.delete_location){
-
-            // Get a reference to the Firebase Realtime Database
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            // Convert a string to a DatabaseReference
-            DatabaseReference myRef = database.getReference(path);
-            myRef.removeValue();
-            finish();
-        }
-
-    }
 
     private void ValidateLocationData() {
         placeName = etPlaceName.getText().toString();
@@ -220,10 +225,22 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
 
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
             saveCurrentTime = currentTime.format(calendar.getTime());
-            productRandomKey = saveCurrentDate + saveCurrentTime;
+            productRandomKey = locationInfo.getLid();
 
-            SaveLocationDetailsToDatabase();
-            //uploadFile(imageUploadTask);
+            downloadImageUrl = locationInfo.getImage();
+            downloadVideoUrl = locationInfo.getVideo();
+
+            if(isImageChanged){
+                Log.d("find", "find");
+                imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
+                imageUploadTask = imagePath.putFile(imageUri);
+            }
+            if(isVideoChanged){
+                videoPath = locationImagesRef.child(videoUri.getLastPathSegment() + productRandomKey + ".mp4");//video
+                Log.d("find", "find2");
+                videoUploadTask = videoPath.putFile(videoUri);
+            }
+            uploadFile();
 
         }catch (Exception e){
             Log.d("error", "found error");
@@ -232,54 +249,86 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void uploadFile(UploadTask ut) {
+    private void uploadFile() {
 
-        ut.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                String message = e.toString();
-                Toast.makeText(ModifyPlaceInfo.this, "Error: " + message, Toast.LENGTH_SHORT).show();
-                loadingBar.dismiss();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        UploadTask ut;
+        if(isImageChanged){
+            ut = imageUploadTask;
+            isImageChanged = false;
+            ut.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String message = e.toString();
+                    Toast.makeText(ModifyPlaceInfo.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                    loadingBar.dismiss();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                ut.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-
-                        }
-                        if(fileUploadCount==1){
-                            return imagePath.getDownloadUrl();
-                        }else{
-                            return videoPath.getDownloadUrl();
-                        }
-
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            if (fileUploadCount == 1) {
-                                downloadImageUrl = task.getResult().toString();
-                                fileUploadCount++;
-                                uploadFile(videoUploadTask);
-
-                            } else if (fileUploadCount == 2) {
-                                downloadVideoUrl = task.getResult().toString();
-                                fileUploadCount++;
-                                SaveLocationDetailsToDatabase();
-
+                    ut.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
                             }
+                            return imagePath.getDownloadUrl();
 
                         }
-                    }
-                });
-            }
-        });
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                downloadImageUrl = task.getResult().toString();
+                                if(!isVideoChanged){
+                                    SaveLocationDetailsToDatabase();
+                                }else uploadFile();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else if(isVideoChanged){
+            ut = videoUploadTask;
+            isVideoChanged = false;
+
+            ut.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    String message = e.toString();
+                    Toast.makeText(ModifyPlaceInfo.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                    loadingBar.dismiss();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    ut.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            return videoPath.getDownloadUrl();
+
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                downloadVideoUrl = task.getResult().toString();
+                                SaveLocationDetailsToDatabase();
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
+        else{
+            SaveLocationDetailsToDatabase();
+        }
     }
 
     private void SaveLocationDetailsToDatabase() {
@@ -289,8 +338,8 @@ public class ModifyPlaceInfo extends AppCompatActivity implements View.OnClickLi
         locationMap.put("date", saveCurrentDate);
         locationMap.put("time", saveCurrentTime);
 
-        //locationMap.put("image", downloadImageUrl);
-        //locationMap.put("video", downloadVideoUrl);
+        locationMap.put("image", downloadImageUrl);
+        locationMap.put("video", downloadVideoUrl);
         locationMap.put("division", division);
         locationMap.put("district", district);
         locationMap.put("upazila", upazila);

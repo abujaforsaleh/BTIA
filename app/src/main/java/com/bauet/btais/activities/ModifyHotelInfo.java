@@ -41,7 +41,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
 
     ImageView hotelImage;
     EditText division, district, upazila;
-    EditText hotelName, roomType, costPerNight, bonus, totalRooms, hotelInfo, services, rating;
+    EditText hotelName, roomType, costPerNight, bonus, hotelInfo, services, rating;
     Button updateHotelBtn, deleteHotelBtn;
     private Uri imageUri;
     private ProgressDialog loadingBar;
@@ -49,8 +49,10 @@ public class ModifyHotelInfo extends AppCompatActivity {
     UploadTask imageUploadTask;
     private StorageReference locationImagesRef;
     private DatabaseReference hotelDataRef;
+    boolean isImgUpdated = false;
+    HotelModel hotelInformation;
 
-    String downloadImageUrl, productRandomKey, saveCurrentTime, saveCurrentDate, divisionStr, districtStr, upazilaStr, hotelNameStr, roomTypeStr, costPerNightStr, bonusStr, totalRoomsStr, hotelInfoStr;
+    String downloadImageUrl, productRandomKey, saveCurrentTime, saveCurrentDate, divisionStr, districtStr, upazilaStr, hotelNameStr, roomTypeStr, costPerNightStr, bonusStr, hotelInfoStr;
     String path;
     private static final int GalleryPick = 1;
 
@@ -61,11 +63,11 @@ public class ModifyHotelInfo extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(0xFF026868));
-        actionBar.setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Add new Hotel" + "</font>")));
+        actionBar.setTitle((Html.fromHtml("<font color=\"#FFFFFF\">" + "Update Hotel Information" + "</font>")));
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        HotelModel hotelInformation = (HotelModel) getIntent().getSerializableExtra("hotel_data");
+        hotelInformation = (HotelModel) getIntent().getSerializableExtra("hotel_data");
         path = getIntent().getStringExtra("reference");
 
         locationImagesRef = FirebaseStorage.getInstance().getReference().child("Hotel Graphics");
@@ -80,7 +82,6 @@ public class ModifyHotelInfo extends AppCompatActivity {
         roomType = findViewById(R.id.roomTypeId);
         costPerNight = findViewById(R.id.costPerNight);
         bonus = findViewById(R.id.bonusId);
-        totalRooms = findViewById(R.id.total_rooms);
         hotelInfo = findViewById(R.id.hotelInfo);
         updateHotelBtn = findViewById(R.id.add_new_hotel_id);
         deleteHotelBtn = findViewById(R.id.delete_hotel_id);
@@ -147,6 +148,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
         if (requestCode == GalleryPick && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             hotelImage.setImageURI(imageUri);
+            isImgUpdated = true;
 
         }
     }
@@ -167,13 +169,13 @@ public class ModifyHotelInfo extends AppCompatActivity {
         roomTypeStr = roomType.getText().toString();
         costPerNightStr = costPerNight.getText().toString();
         bonusStr = bonus.getText().toString();
-        totalRoomsStr = totalRooms.getText().toString();
+
         hotelInfoStr = hotelInfo.getText().toString();
 
 
         if (divisionStr.equals("") || districtStr.equals("") || upazilaStr.equals("") ||
                 hotelNameStr.equals("") || roomTypeStr.equals("") || costPerNightStr.equals("") ||
-                bonusStr.equals("") || totalRoomsStr.equals("") || hotelInfoStr.equals("")) {
+                bonusStr.equals("") || hotelInfoStr.equals("")) {
             Toast.makeText(this, "Please fill all the information correctly", Toast.LENGTH_SHORT).show();
 
         } else {
@@ -186,8 +188,8 @@ public class ModifyHotelInfo extends AppCompatActivity {
 
     private void storeLocationGraphicsToDB() {
         try{
-            loadingBar.setTitle("Add New Content");
-            loadingBar.setMessage("Wait while we are adding the new Content.");
+            loadingBar.setTitle("Updating Hotel Info");
+            loadingBar.setMessage("Wait while we are updating information.");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
@@ -199,11 +201,16 @@ public class ModifyHotelInfo extends AppCompatActivity {
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
             saveCurrentTime = currentTime.format(calendar.getTime());
 
-            productRandomKey = saveCurrentDate + saveCurrentTime;
-            imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
-            imageUploadTask = imagePath.putFile(imageUri);
+            productRandomKey = hotelInformation.getHid();
+            downloadImageUrl = hotelInformation.getImage();
+            if(isImgUpdated){
+                imagePath = locationImagesRef.child(imageUri.getLastPathSegment() + productRandomKey + ".jpg");//image one
+                imageUploadTask = imagePath.putFile(imageUri);
 
-            uploadFile(imageUploadTask);
+                uploadFile(imageUploadTask);
+            }else{
+                SaveLocationDetailsToDatabase();
+            }
 
         }catch (Exception e){
             Log.d("error", "found error");
@@ -271,7 +278,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             loadingBar.dismiss();
-                            Toast.makeText(ModifyHotelInfo.this, "Hotel is added successfully..", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ModifyHotelInfo.this, "Hotel info updated successfully..", Toast.LENGTH_SHORT).show();
                             /*Intent intent = new Intent(AddHotelsActivity.this, AdminActivity.class);
                             startActivity(intent);
                             finish();*/
