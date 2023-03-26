@@ -3,26 +3,30 @@ package com.bauet.btais.activities;
 import static com.bauet.btais.constants.fromButton;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bauet.btais.Model.HotelModel;
 import com.bauet.btais.Model.LocationModel;
+import com.bauet.btais.Prevalent.Prevalent;
 import com.bauet.btais.R;
 import com.bauet.btais.adapters.HotelListAdapter;
 import com.bauet.btais.adapters.LocationListAdapter;
@@ -56,12 +60,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         SwitchCompat switchSearchOptions;
         TextView tvSwitchHotel, tvSwitchPlace;
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+
+        searchItemsList = findViewById(R.id.locationListId);
+        drawerLayout=findViewById(R.id.drawer_layout);
+        toolbar=findViewById(R.id.toolbar);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        searchView = findViewById(R.id.search_bar_id);
         
         try{
             if(fromButton.equals("user")){
 
                 /*Bundle bundle = getIntent().getExtras();
                 Log.d("title", bundle.getString("title"));*/
+                View headerView = navigationView.getHeaderView(0);
+                TextView navUsername = (TextView) headerView.findViewById(R.id.user_profile_name);
+                TextView navUserPhone = (TextView) headerView.findViewById(R.id.user_profile_phone);
+                navUsername.setText(Paper.book().read(Prevalent.UserNameKey));
+                navUserPhone.setText(Paper.book().read(Prevalent.UserPhoneKey));
+
                 toolbar.setTitle("Home");
                 navigationView.setNavigationItemSelectedListener(this);
                 ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -91,12 +107,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switchSearchOptions = findViewById(R.id.switchMaleFemale);
         tvSwitchHotel = findViewById(R.id.tvSwitchHotel);
         tvSwitchPlace = findViewById(R.id.tvSwitchPlace);
-        
-        searchItemsList = findViewById(R.id.locationListId);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        toolbar=findViewById(R.id.toolbar);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        searchView = findViewById(R.id.search_bar_id);
         
         mbase = FirebaseDatabase.getInstance().getReference().child("Locations");
 
@@ -200,14 +210,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show();
         if (id == R.id.nav_search) {
-
-
         }else if (id == R.id.nav_logout) {
-
             Paper.book().destroy();
-
             Intent intent=new Intent(HomeActivity.this,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(intent);

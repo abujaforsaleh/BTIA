@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         NotAdminLink = (TextView) findViewById(R.id.not_admin_panel_link);
         loadingBar = new ProgressDialog(this);
 
-        Paper.init(this);
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     {
 
         Paper.book().write(Prevalent.UserPhoneKey, phone);
+
         Paper.book().write(Prevalent.UserPasswordKey, password);
 
         final DatabaseReference RootRef;
@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         if (usersData.getPassword().equals(password))
                         {
+                            Paper.book().write(Prevalent.UserNameKey, usersData.getName());
                             if(parentDbName.equals("Admins"))
                             {
                                 Toasty.success(LoginActivity.this, "Welcome Admin, you are logged in Successfully...",
