@@ -15,7 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bauet.btais.Model.LocationModel;
+import com.bauet.btais.Model.HotelModel;
+import com.bauet.btais.activities.HotelInformationActivity;
+import com.bauet.btais.activities.ModifyHotelInfo;
 import com.bauet.btais.activities.ModifyPlaceInfo;
 import com.bauet.btais.activities.PlaceInformationActivity;
 import com.bauet.btais.R;
@@ -24,24 +26,26 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Picasso;
 import io.paperdb.Paper;
 
-public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, LocationListAdapter.LocationViewHolder> {
+public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelListAdapter.LocationViewHolder> {
 
     Context context;
-    public LocationListAdapter(@NonNull FirebaseRecyclerOptions<LocationModel> options, Context context)
+    public HotelListAdapter(@NonNull FirebaseRecyclerOptions<HotelModel> options, Context context)
     {
         super(options);
         this.context = context;
     }
     @Override
-    protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationModel model) {
+    protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull HotelModel model) {
 
         Paper.init(context);
-        Log.d("context", fromButton);
+        Log.d("hotel info", model.toString());
         String address = model.getDivision()+","+model.getDistrict()+","+model.getUpazila();
-        holder.placeName.setText(model.getPlaceName());
-        holder.placeLocation.setText(address);
-        holder.tourCost.setText("৳."+model.getTravelCost());
+        holder.hotelName.setText(model.getHotelName());
+        holder.hotelLocation.setText(address);
+        holder.stayingCost.setText("৳."+model.getCostPerNight());
+        holder.discount.setText("৳."+model.getDistrict());
         Picasso.get().load(model.getImage()).into(holder.imageView);
+
         holder.itemParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,12 +55,12 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
 
                         //Toast.makeText(context, fromButton, Toast.LENGTH_SHORT).show();
                         if(fromButton.equals("view_content")){
-                            Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                            intent.putExtra("location_data", model);
+                            Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
+                            intent.putExtra("hotel_data", model);
                             v.getContext().startActivity(intent);
                         }else{
-                            Intent intent = new Intent(v.getContext(), ModifyPlaceInfo.class);
-                            intent.putExtra("location_data", model);
+                            Intent intent = new Intent(v.getContext(), ModifyHotelInfo.class);
+                            intent.putExtra("hotel_data", model);
 
                             intent.putExtra("reference", getRef(position).getPath().toString());
                             v.getContext().startActivity(intent);
@@ -64,18 +68,16 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
 
                     }else{
 
-                        Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                        intent.putExtra("location_data", model);
+                        Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
+                        intent.putExtra("hotel_data", model);
                         v.getContext().startActivity(intent);
                     }
                 }catch (Exception e){
                     Log.e("error", e.toString());
-                    Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                    intent.putExtra("location_data", model);
+                    Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
+                    intent.putExtra("hotel_data", model);
                     v.getContext().startActivity(intent);
                 }
-
-
             }
         });
 
@@ -85,21 +87,22 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_place, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_hotel, parent, false);
         return new LocationViewHolder(view);
     }
 
     static class LocationViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, placeLocation, tourCost;
+        TextView hotelName, hotelLocation, stayingCost, discount;
         ImageView imageView;
         CardView itemParentLayout;
         public LocationViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            placeName = itemView.findViewById(R.id.place_name);
-            placeLocation = itemView.findViewById(R.id.place_location);
-            tourCost = itemView.findViewById(R.id.tour_cost);
-            imageView = itemView.findViewById(R.id.img_id);
+            hotelName = itemView.findViewById(R.id.hotel_name);
+            hotelLocation = itemView.findViewById(R.id.hotel_location);
+            stayingCost = itemView.findViewById(R.id.stay_cost);
+            imageView = itemView.findViewById(R.id.hotel_img);
+            discount = itemView.findViewById(R.id.discount);
             itemParentLayout = itemView.findViewById(R.id.itemParentLayout);
 
         }

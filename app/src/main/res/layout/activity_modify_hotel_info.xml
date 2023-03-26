@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:orientation="vertical"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,329 +7,337 @@
     tools:context=".activities.ModifyHotelInfo"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#519CBD">
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".activities.AddPlaces">
+        android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
 
-        <!--input image selection-->
         <LinearLayout
-            android:layout_marginTop="2dp"
-            android:id="@+id/image_selection_section"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
+            tools:context=".activities.AddPlaces">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+            <!--input image selection-->
+            <LinearLayout
+                android:layout_marginTop="2dp"
+                android:id="@+id/image_selection_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/login_applogo"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/lite_black"
+                    android:fontFamily="@font/home_font"
+                    android:text="Image"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_marginHorizontal="5dp"
+                    android:id="@+id/hotel_image"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:cropToPadding="false"
+                    android:src="@drawable/select_product_image" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+            <LinearLayout
                 android:layout_marginHorizontal="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/login_applogo"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/lite_black"
-                android:fontFamily="@font/home_font"
-                android:text="Image"
-                android:textAlignment="center"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-            <ImageView
-                android:layout_marginHorizontal="5dp"
-                android:id="@+id/hotel_image"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
-                android:cropToPadding="false"
-                android:src="@drawable/select_product_image" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
-
-        <LinearLayout
-            android:layout_marginHorizontal="10dp"
-            android:id="@+id/aria_selection_section"
-            android:weightSum="3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:id="@+id/aria_selection_section"
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lite_black"
+                        android:fontFamily="@font/home_font"
+                        android:text="Division"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                    <AutoCompleteTextView
+                        android:id="@+id/division_id"
+                        android:background="@drawable/input_design"
+                        android:padding="5dp"
+                        android:alpha=".7"
+                        android:maxLines="1"
+                        android:hint="Select"
+                        android:paddingStart="10dp"
+                        android:textColorHint="@color/white"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10" />
+                </LinearLayout>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    android:paddingVertical="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/lite_black"
-                    android:fontFamily="@font/home_font"
-                    android:text="Division"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-                <AutoCompleteTextView
-                    android:id="@+id/division_id"
-                    android:background="@drawable/input_design"
-                    android:padding="5dp"
-                    android:alpha=".7"
-                    android:maxLines="1"
-                    android:hint="Select"
-                    android:paddingStart="10dp"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lite_black"
+                        android:fontFamily="@font/home_font"
+                        android:text="District"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                    <AutoCompleteTextView
+                        android:id="@+id/district_id"
+                        android:background="@drawable/input_design"
+                        android:padding="5dp"
+                        android:maxLines="1"
+                        android:alpha=".7"
+                        android:textColorHint="@color/white"
+                        android:textColor="@color/white"
+                        android:hint="Select"
+                        android:paddingStart="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10" />
+                </LinearLayout>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    android:paddingVertical="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
-                    android:ems="10" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/lite_black"
+                        android:fontFamily="@font/home_font"
+                        android:text="Upazila"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                    <AutoCompleteTextView
+                        android:id="@+id/upazilaId"
+                        android:background="@drawable/input_design"
+                        android:textColor="@color/white"
+                        android:padding="5dp"
+                        android:alpha=".7"
+                        android:maxLines="1"
+                        android:hint="Select"
+                        android:paddingStart="10dp"
+                        android:textColorHint="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10" />
+                </LinearLayout>
+
             </LinearLayout>
             <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                android:paddingVertical="15dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/lite_black"
-                    android:fontFamily="@font/home_font"
-                    android:text="District"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-                <AutoCompleteTextView
-                    android:id="@+id/district_id"
-                    android:background="@drawable/input_design"
-                    android:padding="5dp"
-                    android:maxLines="1"
-                    android:alpha=".7"
-                    android:textColorHint="@color/white"
-                    android:textColor="@color/white"
-                    android:hint="Select"
-                    android:paddingStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
-            </LinearLayout>
+
             <View
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:background="@color/black"
-                android:paddingVertical="15dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black"/>
+
+
+            <EditText
+                android:id="@+id/hotelNameId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:alpha=".7"
+                android:background="@drawable/input_design"
+                android:drawableStart="@drawable/place"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/white"
+                android:hint="Hotel Name"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp" />
+
+            <EditText
+                android:id="@+id/roomTypeId"
+                android:drawableStart="@drawable/money_icon"
+                android:drawableTint="@color/white"
+                android:drawablePadding="10dp"
+                android:alpha=".7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/input_design"
+                android:padding="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:hint="Room Type"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp"/>
+
+
+            <EditText
+                android:id="@+id/costPerNight"
+                android:drawableStart="@drawable/money_icon"
+                android:drawableTint="@color/white"
+                android:drawablePadding="10dp"
+                android:alpha=".7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/input_design"
+                android:padding="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:hint="Cost per night"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp"/>
+
+            <EditText
+                android:id="@+id/bonusId"
+                android:drawableStart="@drawable/money_icon"
+                android:drawableTint="@color/white"
+                android:drawablePadding="10dp"
+                android:alpha=".7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/input_design"
+                android:padding="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:hint="Bonus (ex. 10%)"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp"/>
+
+            <EditText
+                android:id="@+id/total_rooms"
+                android:drawableStart="@drawable/money_icon"
+                android:drawableTint="@color/white"
+                android:drawablePadding="10dp"
+                android:alpha=".7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/input_design"
+                android:padding="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:hint="Total Rooms"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp"/>
+
+            <EditText
+                android:id="@+id/hotelInfo"
+                android:drawablePadding="10dp"
+                android:alpha=".7"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@drawable/input_design"
+                android:padding="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="start"
+                android:ems="10"
+                android:textIsSelectable="true"
+                android:inputType="textMultiLine"
+                android:lineSpacingMultiplier="1.8"
+                android:hint="Hotel Information"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="19sp"/>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/delete_hotel_id"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/lite_black"
-                    android:fontFamily="@font/home_font"
-                    android:text="Upazila"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-                <AutoCompleteTextView
-                    android:id="@+id/upazilaId"
-                    android:background="@drawable/input_design"
-                    android:textColor="@color/white"
-                    android:padding="5dp"
-                    android:alpha=".7"
-                    android:maxLines="1"
-                    android:hint="Select"
-                    android:paddingStart="10dp"
-                    android:textColorHint="@color/white"
-                    android:layout_width="wrap_content"
+                    android:layout_below="@+id/linear_layout_1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:backgroundTint="@color/colorWarning"
+                    android:padding="15dp"
+                    android:alpha=".9"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:text="Delete Hotel"
+                    android:textColor="@android:color/white"
+                    />
+                <Button
+                    android:id="@+id/add_new_hotel_id"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:ems="10" />
+                    android:layout_below="@+id/linear_layout_1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:backgroundTint="@color/colorSecondaryVariant"
+                    android:padding="15dp"
+                    android:alpha=".9"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:text="Update Hotel"
+                    android:textColor="@android:color/white"
+                    />
+
             </LinearLayout>
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
+
+    </ScrollView>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
-
-
-        <EditText
-            android:id="@+id/hotelNameId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:alpha=".7"
-            android:background="@drawable/input_design"
-            android:drawableStart="@drawable/place"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/white"
-            android:hint="Hotel Name"
-            android:padding="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp" />
-
-        <EditText
-            android:id="@+id/roomTypeId"
-            android:drawableStart="@drawable/money_icon"
-            android:drawableTint="@color/white"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:hint="Room Type"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
-
-        <EditText
-            android:id="@+id/costPerNight"
-            android:drawableStart="@drawable/money_icon"
-            android:drawableTint="@color/white"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:hint="Cost per night"
-            android:inputType="number"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
-        <EditText
-            android:id="@+id/bonusId"
-            android:drawableStart="@drawable/money_icon"
-            android:drawableTint="@color/white"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:hint="Bonus (ex. 10%)"
-            android:inputType="number"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
-        <EditText
-            android:id="@+id/total_rooms"
-            android:drawableStart="@drawable/money_icon"
-            android:drawableTint="@color/white"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:hint="Total Rooms"
-            android:inputType="number"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
-        <EditText
-            android:id="@+id/hotelInfo"
-            android:drawablePadding="10dp"
-            android:alpha=".7"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/input_design"
-            android:padding="20dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="start"
-            android:ems="10"
-            android:textIsSelectable="true"
-            android:inputType="textMultiLine"
-            android:lineSpacingMultiplier="1.8"
-            android:hint="Hotel Information"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="19sp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/delete_hotel_id"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_layout_1"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/colorWarning"
-                android:padding="15dp"
-                android:alpha=".9"
-                android:textAllCaps="false"
-                android:textSize="18sp"
-                android:text="Delete Hotel"
-                android:textColor="@android:color/white"
-                />
-            <Button
-                android:id="@+id/add_new_hotel_id"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linear_layout_1"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/colorSecondaryVariant"
-                android:padding="15dp"
-                android:alpha=".9"
-                android:textAllCaps="false"
-                android:textSize="18sp"
-                android:text="Update Hotel"
-                android:textColor="@android:color/white"
-                />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</RelativeLayout>

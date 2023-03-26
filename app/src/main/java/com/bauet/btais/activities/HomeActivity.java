@@ -6,28 +6,32 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bauet.btais.Model.HotelModel;
 import com.bauet.btais.Model.LocationModel;
 import com.bauet.btais.R;
+import com.bauet.btais.adapters.HotelListAdapter;
 import com.bauet.btais.adapters.LocationListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,41 +43,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
     Toolbar toolbar;
-    RecyclerView locationList;
-    LocationListAdapter adapter; // Create Object of the Adapter class
+    RecyclerView searchItemsList;
     DatabaseReference mbase;
     SearchView searchView;
+    String searchOption = "Place";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        locationList = findViewById(R.id.locationListId);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        toolbar=findViewById(R.id.toolbar);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        searchView = findViewById(R.id.search_bar_id);
-
+        SwitchCompat switchSearchOptions;
+        TextView tvSwitchHotel, tvSwitchPlace;
         androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
-
+        
         try{
-            Log.d("frombutton", fromButton);
             if(fromButton.equals("user")){
-                Log.d("title", "0");
+
                 /*Bundle bundle = getIntent().getExtras();
                 Log.d("title", bundle.getString("title"));*/
                 toolbar.setTitle("Home");
-                Log.d("title", "1");
-
                 navigationView.setNavigationItemSelectedListener(this);
-                Log.d("title", "2");
                 ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-
                 drawerLayout.addDrawerListener(toggle);
-                Log.d("title", "3");
                 toggle.syncState();
-                Log.d("allok", "all ok for user");
+
             }else{
 
                 //Toast.makeText(this, "hiding title", Toast.LENGTH_SHORT).show();
@@ -93,10 +87,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }catch (Exception e){
             toolbar.setTitle("Home");
         }
+        
+        switchSearchOptions = findViewById(R.id.switchMaleFemale);
+        tvSwitchHotel = findViewById(R.id.tvSwitchHotel);
+        tvSwitchPlace = findViewById(R.id.tvSwitchPlace);
+        
+        searchItemsList = findViewById(R.id.locationListId);
+        drawerLayout=findViewById(R.id.drawer_layout);
+        toolbar=findViewById(R.id.toolbar);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        searchView = findViewById(R.id.search_bar_id);
+        
         mbase = FirebaseDatabase.getInstance().getReference().child("Locations");
+
+        switchSearchOptions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    tvSwitchHotel.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.blue_color));
+                    tvSwitchPlace.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.white));
+                    searchOption = "Place";
+                    updateMyList("");
+                }else{
+                    tvSwitchHotel.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.white));
+                    tvSwitchPlace.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.blue_color));
+                    searchOption = "Hotel";
+                    updateMyList("");
+                }
+            }
+        });
+        
         //location recyclerview section
 
-        locationList.setLayoutManager(
+        searchItemsList.setLayoutManager(
                 new LinearLayoutManager(this));
 
         //adapter = new LocationListAdapter(options, this);
@@ -110,55 +133,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Handle search query here
-                Query query1 = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("placeName").startAt(newText).endAt(newText + "\uf8ff");
-                Query query2 = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("division").startAt(newText).endAt(newText + "\uf8ff");
-                Set<DataSnapshot> resultSet = new HashSet<>();
-                // Attach a ValueEventListener to each query to get the results
-                query1.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        resultSet.add(dataSnapshot);
-                        // Update the UI or perform other actions
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle any errors
-                    }
-                });
-
-                query2.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        resultSet.add(dataSnapshot);
-                        // Update the UI or perform other actions
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle any errors
-                    }
-                });
-                FirebaseRecyclerOptions<LocationModel> options
-                        = new FirebaseRecyclerOptions.Builder<LocationModel>()
-                        .setQuery(query1, LocationModel.class)
-                        .build();
-                /*FirebaseRecyclerOptions<DataModel> options = new FirebaseRecyclerOptions.Builder<DataModel>()
-                        .setQuery(query, DataModel.class)
-                        .build();*/
-
-                adapter = new LocationListAdapter(options, HomeActivity.this);
-                locationList.setAdapter(adapter);
-                adapter.startListening();
+                updateMyList(newText);
 
                 return true;
             }
         });
         // Connecting Adapter class with the Recycler view*/
-
-
     }
 
+    public void updateMyList(String newText){
+        Query queryPlace = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("placeName");
+        Query queryHotel = FirebaseDatabase.getInstance().getReference().child("Hotels").orderByChild("hotelName");
+        //Query query2 = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("division").startAt(newText).endAt(newText + "\uf8ff");
+        if(searchOption.equals("Hotel")){
+            FirebaseRecyclerOptions<HotelModel> options
+                    = new FirebaseRecyclerOptions.Builder<HotelModel>()
+                    .setQuery(queryHotel, HotelModel.class)
+                    .build();
+
+            HotelListAdapter adapter = new HotelListAdapter(options, HomeActivity.this);
+            searchItemsList.setAdapter(adapter);
+            adapter.startListening();
+
+        }else {
+            FirebaseRecyclerOptions<LocationModel> options
+                    = new FirebaseRecyclerOptions.Builder<LocationModel>()
+                    .setQuery(queryPlace, LocationModel.class)
+                    .build();
+
+            LocationListAdapter adapter = new LocationListAdapter(options, HomeActivity.this);
+            searchItemsList.setAdapter(adapter);
+            adapter.startListening();
+        }
+    }
     @Override
     public void onBackPressed(){
 
@@ -178,6 +186,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

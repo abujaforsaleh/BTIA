@@ -1,6 +1,8 @@
 package com.bauet.btais.Model;
 
-public class HotelModel {
+import java.io.Serializable;
+
+public class HotelModel implements Serializable {
 
     private String hid;
     private String date;
@@ -16,6 +18,9 @@ public class HotelModel {
     private String costPerNight;
     private String bonus;
     private String hotelInformation;
+
+    public HotelModel() {
+    }
 
     public HotelModel(String hid, String date, String time, String image, String division, String district, String upazila, String hotelName, String roomType, String costPerNight, String bonus, String hotelInformation) {
         this.hid = hid;
@@ -78,5 +83,24 @@ public class HotelModel {
 
     public String getHotelInformation() {
         return hotelInformation;
+    }
+
+
+    @Override
+    public String toString() {
+        return "HotelModel{" +
+                "hid='" + hid + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", image='" + image + '\'' +
+                ", division='" + division + '\'' +
+                ", district='" + district + '\'' +
+                ", upazila='" + upazila + '\'' +
+                ", hotelName='" + hotelName + '\'' +
+                ", roomType='" + roomType + '\'' +
+                ", costPerNight='" + costPerNight + '\'' +
+                ", bonus='" + bonus + '\'' +
+                ", hotelInformation='" + hotelInformation + '\'' +
+                '}';
     }
 }

@@ -90,60 +90,6 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/update_delete_content_id"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:cardCornerRadius="10dp"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3.5"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/update_location_img"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.5"
-                        android:textColor="@color/lite_black"
-                        android:background="@color/white"
-                        android:text="Update/Delete Place"
-                        android:gravity="center"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:weightSum="2"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
                 android:id="@+id/add_hotel"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -189,49 +135,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/update_delete_hotel_id"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:cardCornerRadius="10dp"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3.5"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/hotel_update_img"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/title1"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.5"
-                        android:textColor="@color/lite_black"
-                        android:background="@color/white"
-                        android:text="Update/Delete Hotel"
-                        android:gravity="center"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
@@ -277,7 +180,7 @@
                         android:layout_weight="1.5"
                         android:background="@color/white"
                         android:textColor="@color/lite_black"
-                        android:text="View Contents"
+                        android:text="User View"
                         android:gravity="center"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -321,9 +224,8 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
             <androidx.cardview.widget.CardView
-                android:id="@+id/view_hotel_id"
+                android:id="@+id/update_delete_content_id"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -341,7 +243,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
-                        android:src="@drawable/view_hotels"/>
+                        android:src="@drawable/update_location_img"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -356,20 +258,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1.5"
-                        android:background="@color/white"
                         android:textColor="@color/lite_black"
-                        android:text="View Hotels"
+                        android:background="@color/white"
+                        android:text="Update/Delete"
                         android:gravity="center"
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
 
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
 
 
+
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="220dp"
