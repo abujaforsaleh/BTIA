@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +34,20 @@ import com.bauet.btais.adapters.LocationListAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.paperdb.Paper;
 
@@ -48,14 +57,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     Toolbar toolbar;
     RecyclerView searchItemsList;
-    DatabaseReference mbase;
     SearchView searchView;
     String searchOption = "Place";
+    List<HotelModel> hotelModelList;
+    List<LocationModel> locationModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        hotelModelList = new ArrayList<>();
+        locationModelList = new ArrayList<>();
 
         SwitchCompat switchSearchOptions;
         TextView tvSwitchHotel, tvSwitchPlace;
@@ -107,8 +120,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switchSearchOptions = findViewById(R.id.switchMaleFemale);
         tvSwitchHotel = findViewById(R.id.tvSwitchHotel);
         tvSwitchPlace = findViewById(R.id.tvSwitchPlace);
-        
-        mbase = FirebaseDatabase.getInstance().getReference().child("Locations");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference hotelsRef = database.getReference("Hotels");
+        DatabaseReference locationRef = database.getReference("Locations");
+
+        hotelsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot hotelSnapshot : snapshot.getChildren()) {
+                    // Get the hotel information
+                    hotelModelList.add(hotelSnapshot.getValue(HotelModel.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        locationRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot locationSnapshot : snapshot.getChildren()) {
+                    // Get the hotel information
+                    locationModelList.add(locationSnapshot.getValue(LocationModel.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         switchSearchOptions.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,11 +163,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     tvSwitchPlace.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.white));
                     searchOption = "Place";
                     updateMyList("");
+                    searchView.clearFocus();
                 }else{
                     tvSwitchHotel.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.white));
                     tvSwitchPlace.setTextColor(ContextCompat.getColor(HomeActivity.this,R.color.blue_color));
                     searchOption = "Hotel";
                     updateMyList("");
+                    searchView.clearFocus();
                 }
             }
         });
@@ -137,44 +184,74 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // Handle search query here
-                return false;
+                updateMyList(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // Handle search query here
+                if(newText.equals("")){
+                    updateMyList("");
+                }
 
-                updateMyList(newText);
-
-                return true;
+                return false;
             }
         });
         // Connecting Adapter class with the Recycler view*/
     }
 
     public void updateMyList(String newText){
-        Query queryPlace = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("placeName");
-        Query queryHotel = FirebaseDatabase.getInstance().getReference().child("Hotels").orderByChild("hotelName");
-        //Query query2 = FirebaseDatabase.getInstance().getReference().child("Locations").orderByChild("division").startAt(newText).endAt(newText + "\uf8ff");
+        Pattern pattern = Pattern.compile("(\\D+)(\\d+)");
+        Matcher matcher = pattern.matcher(newText);
+        int maxBudget = 10000000;
+        if(matcher.matches()){
+            newText = Objects.requireNonNull(matcher.group(1)).trim();
+            maxBudget = Integer.parseInt(Objects.requireNonNull(matcher.group(2)));
+        }
+        if(isNumeric(newText)){
+            maxBudget = Integer.parseInt(newText);
+            newText = "";
+
+        }
+        Log.d("query", newText+" "+maxBudget);
+
         if(searchOption.equals("Hotel")){
-            FirebaseRecyclerOptions<HotelModel> options
-                    = new FirebaseRecyclerOptions.Builder<HotelModel>()
-                    .setQuery(queryHotel, HotelModel.class)
-                    .build();
+            List<HotelModel> filteredHotel = new ArrayList<>();
+            for(int i = 0;i<hotelModelList.size();i++){
+                HotelModel mdl = hotelModelList.get(i);
+                if(mdl.getDivision().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT)) ||
+                        mdl.getDistrict().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
+                        mdl.getUpazila().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
+                        mdl.getHotelName().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
 
-            HotelListAdapter adapter = new HotelListAdapter(options, HomeActivity.this);
+                    if(maxBudget>=Integer.parseInt(mdl.getCostPerNight())) filteredHotel.add(mdl);
+                }
+
+            }
+
+            HotelListAdapter adapter = new HotelListAdapter(filteredHotel, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
-            adapter.startListening();
+            //adapter.notify();
 
-        }else {
-            FirebaseRecyclerOptions<LocationModel> options
-                    = new FirebaseRecyclerOptions.Builder<LocationModel>()
-                    .setQuery(queryPlace, LocationModel.class)
-                    .build();
+        }
+        else {
+            List<LocationModel> filteredLocation = new ArrayList<>();
+            for(int i = 0;i<locationModelList.size();i++){
+                LocationModel mdl = locationModelList.get(i);
+                if(mdl.getDivision().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT)) ||
+                        mdl.getDistrict().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
+                        mdl.getUpazila().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
+                        mdl.getPlaceName().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
+                    if(maxBudget>=Integer.parseInt(mdl.getTravelCost())) filteredLocation.add(mdl);
+                    //Log.d("hotel info "+i, hotelModelList.get(i).getDivision()+" "+hotelModelList.get(i).getDistrict()+" "+hotelModelList.get(i).getUpazila()+" "+" "+hotelModelList.get(i).getHotelName());
+                }
 
-            LocationListAdapter adapter = new LocationListAdapter(options, HomeActivity.this);
+            }
+
+            LocationListAdapter adapter = new LocationListAdapter(filteredLocation, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
-            adapter.startListening();
+            //adapter.startListening();
         }
     }
     @Override
@@ -221,5 +298,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
 }

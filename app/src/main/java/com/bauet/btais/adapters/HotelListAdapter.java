@@ -24,27 +24,31 @@ import com.bauet.btais.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import io.paperdb.Paper;
 
-public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelListAdapter.LocationViewHolder> {
+public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.LocationViewHolder> {
 
     Context context;
-    public HotelListAdapter(@NonNull FirebaseRecyclerOptions<HotelModel> options, Context context)
+    List<HotelModel> options;
+    public HotelListAdapter(List<HotelModel> options, Context context)
     {
-        super(options);
+        this.options = options;
         this.context = context;
     }
     @Override
-    protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull HotelModel model) {
+    public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
 
         Paper.init(context);
-        Log.d("hotel info", model.toString());
-        String address = model.getDivision()+","+model.getDistrict()+","+model.getUpazila();
-        holder.hotelName.setText(model.getHotelName());
+        //Log.d("hotel info", options.get(position).toString());
+        String address = options.get(position).getDivision()+","+options.get(position).getDistrict()+","+options.get(position).getUpazila();
+        holder.hotelName.setText(options.get(position).getHotelName());
         holder.hotelLocation.setText(address);
-        holder.roomType.setText(model.getRoomType());
-        holder.stayingCost.setText("৳."+model.getCostPerNight());
-        Picasso.get().load(model.getImage()).into(holder.imageView);
+        holder.roomType.setText(options.get(position).getRoomType());
+        holder.stayingCost.setText("৳."+options.get(position).getCostPerNight());
+        Picasso.get().load(options.get(position).getImage()).into(holder.imageView);
 
         holder.itemParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,26 +60,26 @@ public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelL
                         //Toast.makeText(context, fromButton, Toast.LENGTH_SHORT).show();
                         if(fromButton.equals("view_content")){
                             Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
-                            intent.putExtra("hotel_data", model);
+                            intent.putExtra("hotel_data", options.get(position));
                             v.getContext().startActivity(intent);
                         }else{
                             Intent intent = new Intent(v.getContext(), ModifyHotelInfo.class);
-                            intent.putExtra("hotel_data", model);
+                            intent.putExtra("hotel_data", options.get(position));
 
-                            intent.putExtra("reference", getRef(position).getPath().toString());
+                            //intent.putExtra("reference", getRef(position).getPath().toString());//todo find way to get reference
                             v.getContext().startActivity(intent);
                         }
 
                     }else{
 
                         Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
-                        intent.putExtra("hotel_data", model);
+                        intent.putExtra("hotel_data", options.get(position));
                         v.getContext().startActivity(intent);
                     }
                 }catch (Exception e){
                     Log.e("error", e.toString());
                     Intent intent = new Intent(v.getContext(), HotelInformationActivity.class);
-                    intent.putExtra("hotel_data", model);
+                    intent.putExtra("hotel_data", options.get(position));
                     v.getContext().startActivity(intent);
                 }
             }
@@ -89,6 +93,11 @@ public class HotelListAdapter extends FirebaseRecyclerAdapter<HotelModel, HotelL
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_hotel, parent, false);
         return new LocationViewHolder(view);
+    }
+
+    @Override
+    public int getItemCount() {
+        return options.size();
     }
 
     static class LocationViewHolder extends RecyclerView.ViewHolder {

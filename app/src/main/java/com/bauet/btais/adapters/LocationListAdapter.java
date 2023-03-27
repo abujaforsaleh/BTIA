@@ -22,26 +22,30 @@ import com.bauet.btais.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import io.paperdb.Paper;
 
-public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, LocationListAdapter.LocationViewHolder> {
+public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.LocationViewHolder> {
 
     Context context;
-    public LocationListAdapter(@NonNull FirebaseRecyclerOptions<LocationModel> options, Context context)
+    List<LocationModel> options;
+    public LocationListAdapter(List<LocationModel> options, Context context)
     {
-        super(options);
         this.context = context;
+        this.options = options;
     }
     @Override
-    protected void onBindViewHolder(@NonNull LocationViewHolder holder, int position, @NonNull LocationModel model) {
+    public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
 
         Paper.init(context);
         Log.d("context", fromButton);
-        String address = model.getDivision()+","+model.getDistrict()+","+model.getUpazila();
-        holder.placeName.setText(model.getPlaceName());
+        String address = options.get(position).getDivision()+","+options.get(position).getDistrict()+","+options.get(position).getUpazila();
+        holder.placeName.setText(options.get(position).getPlaceName());
         holder.placeLocation.setText(address);
-        holder.tourCost.setText("৳."+model.getTravelCost());
-        Picasso.get().load(model.getImage()).into(holder.imageView);
+        holder.tourCost.setText("৳."+options.get(position).getTravelCost());
+        Picasso.get().load(options.get(position).getImage()).into(holder.imageView);
         holder.itemParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,26 +56,26 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
                         //Toast.makeText(context, fromButton, Toast.LENGTH_SHORT).show();
                         if(fromButton.equals("view_content")){
                             Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                            intent.putExtra("location_data", model);
+                            intent.putExtra("location_data", options.get(position));
                             v.getContext().startActivity(intent);
                         }else{
                             Intent intent = new Intent(v.getContext(), ModifyPlaceInfo.class);
-                            intent.putExtra("location_data", model);
+                            intent.putExtra("location_data", options.get(position));
 
-                            intent.putExtra("reference", getRef(position).getPath().toString());
+                            //intent.putExtra("reference", getRef(position).getPath().toString());//todo find way to get reference
                             v.getContext().startActivity(intent);
                         }
 
                     }else{
 
                         Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                        intent.putExtra("location_data", model);
+                        intent.putExtra("location_data", options.get(position));
                         v.getContext().startActivity(intent);
                     }
                 }catch (Exception e){
                     Log.e("error", e.toString());
                     Intent intent = new Intent(v.getContext(), PlaceInformationActivity.class);
-                    intent.putExtra("location_data", model);
+                    intent.putExtra("location_data", options.get(position));
                     v.getContext().startActivity(intent);
                 }
 
@@ -79,6 +83,11 @@ public class LocationListAdapter extends FirebaseRecyclerAdapter<LocationModel, 
             }
         });
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return options.size();
     }
 
     @NonNull
