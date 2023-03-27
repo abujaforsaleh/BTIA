@@ -15,17 +15,26 @@
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
         <activity
-            android:name=".activities.HotelInformationActivity"
             android:theme="@style/Theme.AppCompat.DayNight"
+            android:name=".activities.HotelBookingsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.ModifyHotelInfo"
             android:theme="@style/Theme.AppCompat.DayNight"
-            android:exported="false">
+            android:name=".activities.HotelInformationActivity"
+            android:exported="false"
+            >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activities.ModifyHotelInfo"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

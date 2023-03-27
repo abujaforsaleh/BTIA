@@ -61,6 +61,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     String searchOption = "Place";
     List<HotelModel> hotelModelList;
     List<LocationModel> locationModelList;
+    List<String> hotelRefs;
+    List<String> locationRefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         hotelModelList = new ArrayList<>();
         locationModelList = new ArrayList<>();
+        hotelRefs = new ArrayList<>();
+        locationRefs = new ArrayList<>();
 
         SwitchCompat switchSearchOptions;
         TextView tvSwitchHotel, tvSwitchPlace;
@@ -128,9 +132,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         hotelsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                hotelModelList = new ArrayList<>();
+                hotelRefs = new ArrayList<>();
                 for (DataSnapshot hotelSnapshot : snapshot.getChildren()) {
                     // Get the hotel information
                     hotelModelList.add(hotelSnapshot.getValue(HotelModel.class));
+                    hotelRefs.add(hotelSnapshot.getRef().getPath().toString());
+                    Log.d("ref", "");
                 }
             }
 
@@ -143,9 +151,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         locationRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                locationModelList = new ArrayList<>();
+                locationRefs = new ArrayList<>();
                 for (DataSnapshot locationSnapshot : snapshot.getChildren()) {
                     // Get the hotel information
                     locationModelList.add(locationSnapshot.getValue(LocationModel.class));
+                    locationRefs.add(locationSnapshot.getRef().getPath().toString());
                 }
             }
 
@@ -173,13 +184,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        
         //location recyclerview section
 
         searchItemsList.setLayoutManager(
                 new LinearLayoutManager(this));
 
         //adapter = new LocationListAdapter(options, this);
+        updateMyList("");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -218,6 +229,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         if(searchOption.equals("Hotel")){
             List<HotelModel> filteredHotel = new ArrayList<>();
+            List<String> filteredHotelDataPath = new ArrayList<>();
+
             for(int i = 0;i<hotelModelList.size();i++){
                 HotelModel mdl = hotelModelList.get(i);
                 if(mdl.getDivision().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT)) ||
@@ -225,12 +238,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         mdl.getUpazila().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
                         mdl.getHotelName().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))){
 
-                    if(maxBudget>=Integer.parseInt(mdl.getCostPerNight())) filteredHotel.add(mdl);
+                    if(maxBudget>=Integer.parseInt(mdl.getCostPerNight())) {
+                        filteredHotel.add(mdl);
+                        filteredHotelDataPath.add(hotelRefs.get(i));
+                    }
                 }
 
             }
 
-            HotelListAdapter adapter = new HotelListAdapter(filteredHotel, HomeActivity.this);
+            HotelListAdapter adapter = new HotelListAdapter(filteredHotel, filteredHotelDataPath, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
             //adapter.notify();
 
@@ -249,9 +265,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             }
 
-            LocationListAdapter adapter = new LocationListAdapter(filteredLocation, HomeActivity.this);
+            LocationListAdapter adapter = new LocationListAdapter(filteredLocation, locationRefs, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
-            //adapter.startListening();
+            //Toast.makeText(this, "sadflkjal;dfjk", Toast.LENGTH_SHORT).show();
         }
     }
     @Override

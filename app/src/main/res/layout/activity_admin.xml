@@ -264,7 +264,7 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/log_out"
+                android:id="@+id/bookings"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -282,7 +282,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="3.5"
                         android:scaleType="fitXY"
-                        android:src="@drawable/logout_img"/>
+                        android:src="@drawable/bookings"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -294,7 +294,7 @@
                         android:layout_weight="1.5"
                         android:background="@color/white"
                         android:textColor="@color/lite_black"
-                        android:text="Log Out"
+                        android:text="Hotel Bookings"
                         android:gravity="center"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -302,6 +302,45 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+            android:id="@+id/log_out"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:weightSum="5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3.5"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/logout_img"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/title1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:background="@color/white"
+                    android:textColor="@color/lite_black"
+                    android:text="Log Out"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 

@@ -31,10 +31,12 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
     Context context;
     List<LocationModel> options;
-    public LocationListAdapter(List<LocationModel> options, Context context)
+    List<String> locationDataRef;
+    public LocationListAdapter(List<LocationModel> options, List<String> locationDataRef, Context context)
     {
         this.context = context;
         this.options = options;
+        this.locationDataRef = locationDataRef;
     }
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
@@ -62,7 +64,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
                             Intent intent = new Intent(v.getContext(), ModifyPlaceInfo.class);
                             intent.putExtra("location_data", options.get(position));
 
-                            //intent.putExtra("reference", getRef(position).getPath().toString());//todo find way to get reference
+                            intent.putExtra("reference", locationDataRef.get(position));//todo find way to get reference
                             v.getContext().startActivity(intent);
                         }
 

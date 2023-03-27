@@ -14,7 +14,7 @@ import com.bauet.btais.R;
 import io.paperdb.Paper;
 
 public class AdminActivity extends AppCompatActivity implements View.OnClickListener {
-    CardView logout, addLocation, updateDelete, viewContent, addNewHotel;
+    CardView logout, addLocation, updateDelete, viewContent, addNewHotel, bookings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +26,14 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         updateDelete = findViewById(R.id.update_delete_content_id);
         viewContent = findViewById(R.id.view_content_id);
         addNewHotel = findViewById(R.id.add_hotel);
+        bookings = findViewById(R.id.bookings);
 
         viewContent.setOnClickListener(this);
         logout.setOnClickListener(this);
         addLocation.setOnClickListener(this);
         updateDelete.setOnClickListener(this);
         addNewHotel.setOnClickListener(this);
+        bookings.setOnClickListener(this);
     }
 
     @Override
@@ -47,24 +49,24 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
         }else if(v.getId()==R.id.add_location){
             fromButton = "add_location";
             Intent intent=new Intent(AdminActivity.this,AddPlaces.class);
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(intent);
         }else if(v.getId()==R.id.update_delete_content_id){
             fromButton = "update_delete";
             Intent intent=new Intent(AdminActivity.this,HomeActivity.class);
             intent.putExtra("title", "Locations");
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(intent);
         } else if(v.getId()==R.id.view_content_id){
             fromButton = "view_content";
             Intent intent=new Intent(AdminActivity.this,HomeActivity.class);
             intent.putExtra("title", "Locations");
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(intent);
         }else if(v.getId()==R.id.add_hotel){
             Intent intent=new Intent(AdminActivity.this,AddHotelsActivity.class);
             //intent.putExtra("title", "Locations");
-            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK );
+            startActivity(intent);
+        }else if(v.getId()==R.id.bookings){
+            Intent intent=new Intent(AdminActivity.this,HotelBookingsActivity.class);
+            //intent.putExtra("title", "Locations");
             startActivity(intent);
         }
     }

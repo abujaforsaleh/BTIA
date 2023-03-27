@@ -33,10 +33,12 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Loca
 
     Context context;
     List<HotelModel> options;
-    public HotelListAdapter(List<HotelModel> options, Context context)
+    List<String> paths;
+    public HotelListAdapter(List<HotelModel> options, List<String> paths, Context context)
     {
         this.options = options;
         this.context = context;
+        this.paths = paths;
     }
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
@@ -66,7 +68,7 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Loca
                             Intent intent = new Intent(v.getContext(), ModifyHotelInfo.class);
                             intent.putExtra("hotel_data", options.get(position));
 
-                            //intent.putExtra("reference", getRef(position).getPath().toString());//todo find way to get reference
+                            intent.putExtra("reference", paths.get(position));//todo find way to get reference
                             v.getContext().startActivity(intent);
                         }
 
