@@ -11,15 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bauet.btais.Model.BookingModel;
 import com.bauet.btais.R;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
 public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.BookingViewHolder> {
 
     List<BookingModel> bookingModelList;
+    List<DatabaseReference> bookingReferences;
 
-    public BookingListAdapter(List<BookingModel> bookingModelList) {
+    public BookingListAdapter(List<BookingModel> bookingModelList, List<DatabaseReference> bookingReferences) {
         this.bookingModelList = bookingModelList;
+        this.bookingReferences =bookingReferences;
     }
 
     @NonNull
@@ -46,7 +49,7 @@ public class BookingListAdapter extends RecyclerView.Adapter<BookingListAdapter.
         holder.confirmBookingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                bookingReferences.get(position).removeValue();
             }
         });
 

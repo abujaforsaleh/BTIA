@@ -180,7 +180,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
 
         } else {
             storeLocationGraphicsToDB();
-            Toast.makeText(this, "Everything ok", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Everything ok", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -271,6 +271,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
         locationMap.put("costPerNight", costPerNightStr);
         locationMap.put("bonus", bonusStr);
         locationMap.put("hotelInformation", hotelInfoStr);
+        locationMap.put("services", services.getText().toString());
 
         hotelDataRef.child(productRandomKey).updateChildren(locationMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -282,6 +283,7 @@ public class ModifyHotelInfo extends AppCompatActivity {
                             /*Intent intent = new Intent(AddHotelsActivity.this, AdminActivity.class);
                             startActivity(intent);
                             finish();*/
+                            finish();
 
                         } else {
                             loadingBar.dismiss();

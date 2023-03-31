@@ -140,6 +140,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     hotelRefs.add(hotelSnapshot.getRef().getPath().toString());
                     Log.d("ref", "");
                 }
+                updateMyList("");
             }
 
             @Override
@@ -158,6 +159,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     locationModelList.add(locationSnapshot.getValue(LocationModel.class));
                     locationRefs.add(locationSnapshot.getRef().getPath().toString());
                 }
+                updateMyList("");
             }
 
             @Override
@@ -225,14 +227,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             newText = "";
 
         }
-        Log.d("query", newText+" "+maxBudget);
+
+        Log.d("query", "nt->"+newText+" mb->"+maxBudget);
 
         if(searchOption.equals("Hotel")){
+            Log.d("query", "hotel");
             List<HotelModel> filteredHotel = new ArrayList<>();
             List<String> filteredHotelDataPath = new ArrayList<>();
 
             for(int i = 0;i<hotelModelList.size();i++){
+
                 HotelModel mdl = hotelModelList.get(i);
+                Log.d("myhotelInfo", mdl.getHotelName()+"\t");
                 if(mdl.getDivision().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT)) ||
                         mdl.getDistrict().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
                         mdl.getUpazila().toLowerCase(Locale.ROOT).contains(newText.toLowerCase(Locale.ROOT))||
@@ -248,10 +254,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             HotelListAdapter adapter = new HotelListAdapter(filteredHotel, filteredHotelDataPath, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
+            adapter.notifyItemInserted(0);
             //adapter.notify();
 
         }
         else {
+            Log.d("query", "place");
+            Log.d("query", "location model len->"+locationModelList.size());
             List<LocationModel> filteredLocation = new ArrayList<>();
             for(int i = 0;i<locationModelList.size();i++){
                 LocationModel mdl = locationModelList.get(i);
@@ -267,6 +276,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             LocationListAdapter adapter = new LocationListAdapter(filteredLocation, locationRefs, HomeActivity.this);
             searchItemsList.setAdapter(adapter);
+            adapter.notifyItemInserted(0);
             //Toast.makeText(this, "sadflkjal;dfjk", Toast.LENGTH_SHORT).show();
         }
     }

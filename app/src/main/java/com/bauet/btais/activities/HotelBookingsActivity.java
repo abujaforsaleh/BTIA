@@ -28,11 +28,14 @@ import java.util.List;
 
 public class HotelBookingsActivity extends AppCompatActivity {
     RecyclerView bookingListView;
+    List<DatabaseReference> bookingReferences;
+    List<BookingModel> bookingModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_bookings);
+        bookingReferences = new ArrayList<>();
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(0xFF026868));
@@ -40,7 +43,7 @@ public class HotelBookingsActivity extends AppCompatActivity {
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        List<BookingModel> bookingModelList = new ArrayList<>();
+        bookingModelList = new ArrayList<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference bookingRef = database.getReference("Bookings");
@@ -48,14 +51,17 @@ public class HotelBookingsActivity extends AppCompatActivity {
         bookingRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bookingModelList = new ArrayList<>();
+                bookingReferences = new ArrayList<>();
                 for (DataSnapshot hotelSnapshot : snapshot.getChildren()) {
                     // Get the hotel information
                     bookingModelList.add(hotelSnapshot.getValue(BookingModel.class));
+                    bookingReferences.add(hotelSnapshot.getRef());
                 }
-                Log.d("length of bookings", bookingModelList.size()+"");
+
                 bookingListView = findViewById(R.id.booking_list_view);
-                Log.d("before send", bookingModelList.size()+"");
-                BookingListAdapter adapter = new BookingListAdapter(bookingModelList);
+
+                BookingListAdapter adapter = new BookingListAdapter(bookingModelList, bookingReferences);
                 bookingListView.setLayoutManager(new LinearLayoutManager(HotelBookingsActivity.this));
                 bookingListView.setAdapter(adapter);
                 adapter.notifyItemInserted(0);
